@@ -1,0 +1,9 @@
+CREATE TABLE users(
+ id SERIAL PRIMARY KEY UNIQUE NOT NULL,
+ login TEXT NOT NULL UNIQUE,
+ password TEXT NOT NULL,
+ usuarioId INTEGER,
+ role TEXT NOT NULL
+);
+
+
