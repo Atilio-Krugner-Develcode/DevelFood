@@ -7,5 +7,5 @@ CREATE TABLE endereco(
  bairro VARCHAR(255) NOT NULL,
  enderecoId INTEGER,
  FOREIGN KEY (enderecoId) REFERENCES cliente(id),
- FOREIGN KEY (enderecoId) REFERENCES restaurante(id)
+ FOREIGN KEY (enderecoId) REFERENCES restaurant(id)
 );

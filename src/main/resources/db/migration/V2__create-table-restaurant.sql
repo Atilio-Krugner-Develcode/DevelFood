@@ -1,4 +1,4 @@
-CREATE TABLE restaurante(
+CREATE TABLE restaurant(
  id SERIAL PRIMARY KEY,
  nome VARCHAR(100) NOT NULL,
  cpf CHAR(11),

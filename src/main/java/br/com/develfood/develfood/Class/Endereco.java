@@ -22,5 +22,5 @@ public class Endereco {
     @ManyToOne
     private Cliente cliente;
     @ManyToOne
-    private Restaurante restaurante;
+    private Restaurant restaurante;
 }

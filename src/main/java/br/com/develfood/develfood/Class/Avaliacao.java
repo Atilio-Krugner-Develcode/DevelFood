@@ -3,6 +3,8 @@ package br.com.develfood.develfood.Class;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Getter
 @Setter
@@ -15,11 +17,11 @@ public class Avaliacao {
 
     private Long id;
     private String descricao;
-    private double nota;
+    private BigDecimal nota;
 
     @ManyToOne
     private Cliente cliente;
 
     @ManyToOne
-    private Restaurante restaurante;
+    private Restaurant restaurante;
 }

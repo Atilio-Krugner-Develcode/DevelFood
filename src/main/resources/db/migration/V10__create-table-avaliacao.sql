@@ -5,5 +5,5 @@ CREATE TABLE avaliacao(
  tempo DATE,
  avaliacaoId INTEGER,
  FOREIGN KEY (avaliacaoId) REFERENCES cliente(id),
- FOREIGN KEY (avaliacaoId) REFERENCES restaurante(id)
+ FOREIGN KEY (avaliacaoId) REFERENCES restaurant(id)
 );

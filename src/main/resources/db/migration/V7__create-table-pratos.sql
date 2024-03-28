@@ -6,6 +6,6 @@ CREATE TABLE pratos(
  preco NUMERIC(6, 2),
  tipo VARCHAR(255),
  pratosId INTEGER,
-  FOREIGN KEY (pratosId) REFERENCES restaurante(id)
+  FOREIGN KEY (pratosId) REFERENCES restaurant(id)
 
 );

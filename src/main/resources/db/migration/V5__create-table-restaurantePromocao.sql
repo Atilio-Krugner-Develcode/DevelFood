@@ -6,6 +6,6 @@ CREATE TABLE restaurantePromocao(
  data_final DATE,
  porcentagem NUMERIC(3, 2),
  promocaoId INTEGER,
- FOREIGN KEY (promocaoId) REFERENCES restaurante(id)
+ FOREIGN KEY (promocaoId) REFERENCES restaurant(id)
 
 );

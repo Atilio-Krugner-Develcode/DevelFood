@@ -7,6 +7,6 @@ CREATE TABLE pedido(
  estadoServico BOOLEAN,
  pedidoId INTEGER,
  FOREIGN KEY (pedidoId) REFERENCES cliente(id),
- FOREIGN KEY (pedidoId) REFERENCES restaurante(id)
+ FOREIGN KEY (pedidoId) REFERENCES restaurant(id)
 
 );

@@ -22,7 +22,7 @@ public class pedido {
     private Cliente cliente;
 
     @ManyToOne
-    private Restaurante restaurante;
+    private Restaurant restaurante;
 
 
 }
