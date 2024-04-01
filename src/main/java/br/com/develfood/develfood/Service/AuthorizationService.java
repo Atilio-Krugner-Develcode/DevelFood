@@ -1,4 +1,4 @@
-package br.com.develfood.develfood.services;
+package br.com.develfood.develfood.Service;
 
 import br.com.develfood.develfood.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -10,6 +10,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "cliente")
 @EqualsAndHashCode(of = "id")
 public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,9 +19,8 @@ public class Cliente {
     private Long id;
     private String nome;
     private String sobrenome;
-    private int cpf;
-    private int telefone;
-    private int enull;
+    private String cpf;
+    private String telefone;
     private String pratosFavoritos;
 
     @OneToMany(mappedBy = "cliente")
@@ -40,6 +40,6 @@ public class Cliente {
 
 
     @OneToMany
-    private List<pedido>pedidos;
+    private List<Pedido>pedidos;
 
 }

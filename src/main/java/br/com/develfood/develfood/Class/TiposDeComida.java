@@ -10,6 +10,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "tiposDeComida")
 @EqualsAndHashCode(of = "id")
 public class TiposDeComida {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +20,6 @@ public class TiposDeComida {
     private String nome;
 
     @OneToMany
-    @JoinColumn(name = "pratos")
     private List<TiposDeComida> tiposDeComidas;
 
 

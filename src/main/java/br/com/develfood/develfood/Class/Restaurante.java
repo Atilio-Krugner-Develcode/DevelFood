@@ -10,6 +10,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "restaurante")
 @EqualsAndHashCode(of = "id")
 public class Restaurante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,8 +18,8 @@ public class Restaurante {
 
     private Long id;
     private String nome;
-    private int cpf;
-    private int telefone;
+    private String cpf;
+    private String telefone;
 
     @OneToOne
     private Endereco endereco;
@@ -36,5 +37,5 @@ public class Restaurante {
     private  List<Avaliacao> avaliacao;
 
     @OneToMany
-    private List<pedido>pedidos;
+    private List<Pedido>pedidos;
 }

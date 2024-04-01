@@ -1,8 +1,4 @@
-package br.com.develfood.develfood.role;
-
-import org.springframework.security.core.GrantedAuthority;
-
-import java.util.Collection;
+package br.com.develfood.develfood.Role;
 
 public enum UserRole {
     ADMIN("admin"),

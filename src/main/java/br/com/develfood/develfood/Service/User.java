@@ -1,6 +1,6 @@
-package br.com.develfood.develfood.Class;
+package br.com.develfood.develfood.Service;
 
-import br.com.develfood.develfood.role.UserRole;
+import br.com.develfood.develfood.Role.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

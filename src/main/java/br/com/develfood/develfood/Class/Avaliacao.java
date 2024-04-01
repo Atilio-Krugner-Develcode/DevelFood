@@ -8,6 +8,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "avaliacao")
 @EqualsAndHashCode(of = "id")
 public class Avaliacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
