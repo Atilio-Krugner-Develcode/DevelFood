@@ -24,7 +24,7 @@ public class Pratos {
     private Pratos pratos;
 
     @ManyToOne
-    private TiposDeComida tiposDeComida;
+    private PlateFilter tiposDeComida;
 
 
 

@@ -1,4 +1,4 @@
-CREATE TABLE pedidoRquisitado(
+CREATE TABLE pedidoRequisitado(
  id SERIAL PRIMARY KEY NOT NULL,
  pratoNome VARCHAR(255),
  quantidade INT,

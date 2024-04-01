@@ -5,7 +5,6 @@ CREATE TABLE restaurant(
  telefone NUMERIC,
  restauranteId INTEGER,
  foto VARCHAR(255),
- pratos VARCHAR(255),
  FOREIGN KEY (restauranteId) REFERENCES users(id)
 
  );

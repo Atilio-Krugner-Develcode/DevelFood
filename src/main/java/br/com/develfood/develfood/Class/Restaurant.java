@@ -7,7 +7,7 @@ import lombok.*;
 import java.util.List;
 
 @Table(name = "restaurant")
-@Entity(name = "restaurant")
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
@@ -24,19 +24,16 @@ public class Restaurant {
     private String foto;
 
 
-    @OneToMany(mappedBy = "restaurante")
-    private List<Endereco> restaurantePromocao;
-
-    @OneToMany
-    private List<Pratos> pratos;
 
 
-
-    @OneToMany
-    private  List<Avaliacao> avaliacao;
-
-    @OneToMany
-    private List<pedido>pedidos;
+//    @OneToMany
+//    private List<Pratos> pratos;
+//
+//    @OneToMany
+//    private  List<Avaliacao> avaliacao;
+//
+//    @OneToMany
+//    private List<pedido>pedidos;
 
     public void updateRestaurant(RequestRestaurant restaurant) {
         if (restaurant.nome() != null) {

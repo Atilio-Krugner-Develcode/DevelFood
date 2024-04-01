@@ -30,7 +30,6 @@ public class RestaurantController {
     @PostMapping
     public ResponseEntity postRestaurant(@RequestBody @Validated RequestRestaurant body){
         Restaurant newRestaurant = new Restaurant(body);
-
         repository.save(newRestaurant);
         return ResponseEntity.ok().build();
 

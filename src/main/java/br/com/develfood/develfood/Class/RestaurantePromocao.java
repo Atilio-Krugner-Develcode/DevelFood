@@ -19,7 +19,6 @@ public class RestaurantePromocao {
 
 
     @ManyToOne
-    @JoinColumn(name = "restaurante_id")
     private RestaurantePromocao restaurantePromocao;
 
 
