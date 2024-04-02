@@ -1,0 +1,45 @@
+package br.com.develfood.develfood.Class;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
+
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "cliente")
+@EqualsAndHashCode(of = "id")
+public class Cliente {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+
+    private Long id;
+    private String nome;
+    private String sobrenome;
+    private String cpf;
+    private String telefone;
+    private String pratosFavoritos;
+
+    @OneToMany(mappedBy = "cliente")
+    private List<Endereco> endereco;
+
+    @ManyToMany
+    private List<Pratos>pratos;
+
+    @OneToMany
+    private List<PratosFavoritos>pratosFavoritosList;
+
+    @OneToOne
+    private Cartoes cartoes;
+
+    @OneToMany
+    private List<Avaliacao> avaliacao;
+
+
+    @OneToMany
+    private List<Pedido>pedidos;
+
+}
