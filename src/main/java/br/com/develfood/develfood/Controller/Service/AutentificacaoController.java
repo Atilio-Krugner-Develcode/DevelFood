@@ -28,7 +28,7 @@ public class AutentificacaoController {
     private UserRepository repository;
 
 
-    @GetMapping("/login")
+   @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Validated AuthenticationDTO data) {
         try {
             var usernamepassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
