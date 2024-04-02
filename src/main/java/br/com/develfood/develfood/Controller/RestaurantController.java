@@ -6,6 +6,9 @@ import br.com.develfood.develfood.Repository.RestaurantRepository;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.validation.annotation.Validated;
@@ -23,8 +26,12 @@ public class RestaurantController {
     private RestaurantRepository repository;
 
     @GetMapping
-    public ResponseEntity getAllRestaurant(){
-        var allRestaurant = repository.findAll();
+    public ResponseEntity<Page<Restaurant>> getAllRestaurant(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ){
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Restaurant> allRestaurant = repository.findAll(pageable);
         return ResponseEntity.ok(allRestaurant);
     }
     @PostMapping

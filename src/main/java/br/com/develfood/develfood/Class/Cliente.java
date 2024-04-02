@@ -27,7 +27,7 @@ public class Cliente {
 //    private List<Endereco> endereco;
 
     @ManyToMany
-    private List<Pratos>pratos;
+    private List<Plates>pratos;
 
     @OneToMany
     private List<PratosFavoritos>pratosFavoritosList;

@@ -31,15 +31,23 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/auth/registrar").permitAll()
                         .requestMatchers(HttpMethod.POST,"/plate/filter").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST,"/restaurant").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/plate/create").hasRole("ADMIN")
+
 
                         .requestMatchers(HttpMethod.PUT,"/plate/filter/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT,"/restaurant/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT,"/plate/{id}").hasRole("ADMIN")
+
 
                         .requestMatchers(HttpMethod.DELETE,"/restaurant/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE,"/plate/filter/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE,"/plate/{id}").hasRole("ADMIN")
+
 
                         .requestMatchers(HttpMethod.GET,"/restaurant").permitAll()
                         .requestMatchers(HttpMethod.GET,"/plate/filter").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/plate").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
