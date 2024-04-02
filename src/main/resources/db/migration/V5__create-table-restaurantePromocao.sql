@@ -1,4 +1,4 @@
-CREATE TABLE restaurantePromocao(
+CREATE TABLE restaurante_promocao(
  id SERIAL PRIMARY KEY NOT NULL,
  nome VARCHAR(55),
  foto VARCHAR(255),

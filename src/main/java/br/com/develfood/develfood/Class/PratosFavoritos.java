@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "pratosFavoritos")
+@Table(name = "pratos_favoritos")
 @EqualsAndHashCode(of = "id")
 public class PratosFavoritos {
     @GeneratedValue(strategy = GenerationType.IDENTITY)

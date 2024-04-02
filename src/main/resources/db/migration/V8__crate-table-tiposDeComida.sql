@@ -1,4 +1,4 @@
-CREATE TABLE tiposDeComida(
+CREATE TABLE tipos_comida(
  id SERIAL PRIMARY KEY NOT NULL,
  nome VARCHAR(255),
  tiposComidaId INTEGER,
