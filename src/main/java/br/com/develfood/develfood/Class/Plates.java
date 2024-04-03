@@ -1,7 +1,6 @@
 package br.com.develfood.develfood.Class;
 
 import br.com.develfood.develfood.Record.PlateDTO;
-import br.com.develfood.develfood.Record.PlateFilterDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,7 +22,7 @@ public class Plates {
     private String descricao;
     private String foto;
     private BigDecimal preco;
-    private String tipo;
+    private String categoria;
 
 //    @ManyToOne
 //    private Plates pratos;
@@ -39,5 +38,6 @@ public class Plates {
         this.descricao = body.descricao();
         this.foto = body.foto();
         this.preco = body.preco();
+        this.categoria = body.categoria();
     }
 }

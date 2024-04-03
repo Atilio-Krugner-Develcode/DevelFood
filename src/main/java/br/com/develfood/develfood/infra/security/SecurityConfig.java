@@ -29,23 +29,23 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/registrar").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/plate/filter").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/type/filter").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST,"/restaurant").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST,"/plate/create").hasRole("ADMIN")
 
 
-                        .requestMatchers(HttpMethod.PUT,"/plate/filter/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT,"/type/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT,"/restaurant/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT,"/plate/{id}").hasRole("ADMIN")
 
 
                         .requestMatchers(HttpMethod.DELETE,"/restaurant/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE,"/plate/filter/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE,"/type/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE,"/plate/{id}").hasRole("ADMIN")
 
 
                         .requestMatchers(HttpMethod.GET,"/restaurant").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/plate/filter").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/type").permitAll()
                         .requestMatchers(HttpMethod.GET,"/plate").permitAll()
 
                         .anyRequest().authenticated()

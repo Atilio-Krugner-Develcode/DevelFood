@@ -24,7 +24,7 @@ public class PlateFilterController {
     @GetMapping
     public ResponseEntity <Page<PlateFilter>>getAllPlateFilter(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size
+            @RequestParam(defaultValue = "10") int size
     ){
         Pageable pageable = PageRequest.of(page, size);
         Page<PlateFilter> allPlateFilter = plateFilterRespository.findAll(pageable);
@@ -37,7 +37,7 @@ public class PlateFilterController {
         plateFilterRespository.save(newPlateFilter);
         return ResponseEntity.ok().build();
     }
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     @Transactional
     public ResponseEntity updatePlateFilter(@PathVariable Long id, @RequestBody @Validated PlateFilterDTO data) {
         if (id != null) {

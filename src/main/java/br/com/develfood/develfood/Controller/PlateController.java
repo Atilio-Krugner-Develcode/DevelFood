@@ -25,10 +25,20 @@ public class PlateController {
     @GetMapping
     public ResponseEntity<Page<Plates>> getAllPlate(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String categoria
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Plates> allPlate = plateRepository.findAll(pageable);
+        Page<Plates> allPlate;
+
+        if (categoria != null && !categoria.isEmpty()) {
+
+            allPlate = plateRepository.findByCategoria(categoria, pageable);
+        } else {
+
+            allPlate = plateRepository.findAll(pageable);
+        }
+
         return ResponseEntity.ok(allPlate);
     }
 

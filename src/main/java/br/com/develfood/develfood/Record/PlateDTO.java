@@ -9,7 +9,7 @@ public record PlateDTO(
         String nome,
         String descricao,
         String foto,
-        String tipo,
+        String categoria,
         BigDecimal preco,
         PlateFilter plateFilter
 
