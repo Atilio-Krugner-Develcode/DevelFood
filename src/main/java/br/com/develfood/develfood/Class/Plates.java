@@ -24,11 +24,10 @@ public class Plates {
     private BigDecimal preco;
     private String categoria;
 
-//    @ManyToOne
-//    private Plates pratos;
-//
-//    @ManyToOne
-//    private PlateFilter tiposDeComida;
+
+    @ManyToOne
+    @JoinColumn(name = "restauranteid")
+    private Restaurant restaurante;
 
 
 

@@ -1,6 +1,7 @@
 package br.com.develfood.develfood.Class;
 
 import br.com.develfood.develfood.Record.RequestRestaurant;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,14 +27,13 @@ public class Restaurant {
 
 
 
-//    @OneToMany
-//    private List<Pratos> pratos;
-//
-//    @OneToMany
-//    private  List<Avaliacao> avaliacao;
-//
-//    @OneToMany
-//    private List<pedido>pedidos;
+    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Plates> pratos;
+
+    public static Restaurant findById(Long id) {
+        return findById(id);
+    }
 
     public void updateRestaurant(RequestRestaurant restaurant) {
         if (restaurant.nome() != null) {

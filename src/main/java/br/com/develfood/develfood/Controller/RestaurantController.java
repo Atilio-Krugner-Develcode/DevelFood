@@ -1,5 +1,6 @@
 package br.com.develfood.develfood.Controller;
 
+import br.com.develfood.develfood.Class.PlateFilter;
 import br.com.develfood.develfood.Class.Restaurant;
 import br.com.develfood.develfood.Record.RequestRestaurant;
 import br.com.develfood.develfood.Repository.RestaurantRepository;
@@ -26,7 +27,7 @@ public class RestaurantController {
     private RestaurantRepository repository;
 
     @GetMapping
-    public ResponseEntity<Page<Restaurant>> getAllRestaurant(
+    public ResponseEntity <Page<Restaurant>>getAllRestaurant(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ){

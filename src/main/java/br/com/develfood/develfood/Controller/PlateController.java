@@ -1,8 +1,10 @@
 package br.com.develfood.develfood.Controller;
 
 import br.com.develfood.develfood.Class.Plates;
+import br.com.develfood.develfood.Class.Restaurant;
 import br.com.develfood.develfood.Record.PlateDTO;
 import br.com.develfood.develfood.Repository.PlateRepository;
+import br.com.develfood.develfood.Repository.RestaurantRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,11 +17,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/plate")
+@RequestMapping("/restaurant/plate")
 public class PlateController {
 
     @Autowired
     private PlateRepository plateRepository;
+    @Autowired
+    private RestaurantRepository restaurantRepository;
 
 
     @GetMapping
@@ -43,34 +47,43 @@ public class PlateController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity postPlate(@RequestBody @Validated PlateDTO body){
-        Plates newPlate = new Plates(body);
-        plateRepository.save(newPlate);
-        return ResponseEntity.ok().build();
-    }
+    public ResponseEntity<?> postPlate(@RequestBody @Validated PlateDTO body, @RequestParam Long restaurantId) {
+        Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
+        if (optionalRestaurant.isPresent()) {
+            Restaurant restaurant = optionalRestaurant.get();
 
-    @PutMapping("{id}")
-    @Transactional
-    public ResponseEntity updatePlate(@PathVariable Long id, @RequestBody @Validated PlateDTO data) {
-        if (id != null) {
-            Optional<Plates> optionalPlates = plateRepository.findById(String.valueOf(id));
-            if (optionalPlates.isPresent()) {
-                Plates plates = optionalPlates.get();
-                plates.setNome(data.nome());
+            Plates newPlate = new Plates(body);
+            newPlate.setRestaurante(restaurant);
+            plateRepository.save(newPlate);
 
-                return ResponseEntity.ok().build();
-            } else {
-                return ResponseEntity.notFound().build();
-            }
+            return ResponseEntity.ok().build();
         } else {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
     }
+        @PutMapping("/{id}")
+        @Transactional
+        public ResponseEntity updatePlate (@PathVariable Long id, @RequestBody @Validated PlateDTO data){
+            if (id != null) {
+                Optional<Plates> optionalPlates = plateRepository.findById(String.valueOf(id));
+                if (optionalPlates.isPresent()) {
+                    Plates plates = optionalPlates.get();
+                    plates.setNome(data.nome());
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity deletePlate(@PathVariable String id){
-        plateRepository.deleteById(id);
-        return   ResponseEntity.noContent().build();
+                    return ResponseEntity.ok().build();
+                } else {
+                    return ResponseEntity.notFound().build();
+                }
+            } else {
+                return ResponseEntity.badRequest().build();
+            }
+        }
+
+        @DeleteMapping("/{id}")
+        public ResponseEntity deletePlate (@PathVariable String id){
+            plateRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+
     }
 
-}
