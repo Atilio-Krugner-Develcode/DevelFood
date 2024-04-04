@@ -10,8 +10,7 @@ public record PlateDTO(
         String descricao,
         String foto,
         String categoria,
-        BigDecimal preco,
-        PlateFilter plateFilter
+        BigDecimal preco
 
 ) {
 }

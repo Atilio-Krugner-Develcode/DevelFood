@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -25,7 +26,16 @@ public class PlateController {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-
+    @GetMapping("/{restaurantId}")
+    public ResponseEntity<List<Plates>> getPlatesByRestaurantId(@PathVariable Long restaurantId) {
+        Optional<Restaurant> restaurantOptional = restaurantRepository.findById(restaurantId);
+        if (restaurantOptional.isPresent()) {
+            List<Plates> plates = plateRepository.findByRestauranteId(restaurantId);
+            return ResponseEntity.ok(plates);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
     @GetMapping
     public ResponseEntity<Page<Plates>> getAllPlate(
             @RequestParam(defaultValue = "0") int page,
@@ -36,22 +46,20 @@ public class PlateController {
         Page<Plates> allPlate;
 
         if (categoria != null && !categoria.isEmpty()) {
-
-            allPlate = plateRepository.findByCategoria(categoria, pageable);
+            allPlate = plateRepository.findByCategoriaOrderByRestauranteNome(categoria, pageable);
         } else {
-
             allPlate = plateRepository.findAll(pageable);
         }
 
         return ResponseEntity.ok(allPlate);
     }
 
+
     @PostMapping("/create")
     public ResponseEntity<?> postPlate(@RequestBody @Validated PlateDTO body, @RequestParam Long restaurantId) {
         Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
         if (optionalRestaurant.isPresent()) {
             Restaurant restaurant = optionalRestaurant.get();
-
             Plates newPlate = new Plates(body);
             newPlate.setRestaurante(restaurant);
             plateRepository.save(newPlate);
@@ -69,6 +77,10 @@ public class PlateController {
                 if (optionalPlates.isPresent()) {
                     Plates plates = optionalPlates.get();
                     plates.setNome(data.nome());
+                    plates.setDescricao(data.descricao());
+                    plates.setFoto(data.foto());
+                    plates.setPreco(data.preco());
+                    plates.setCategoria(data.categoria());
 
                     return ResponseEntity.ok().build();
                 } else {
