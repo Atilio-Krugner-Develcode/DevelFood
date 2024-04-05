@@ -24,7 +24,9 @@ public class Restaurant {
     private int telefone;
     private String foto;
 
-
+    @ManyToOne
+    @JoinColumn(name = "tipos")
+    private PlateFilter plateFilter;
 
 
     @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL)
@@ -49,5 +51,7 @@ public class Restaurant {
         this.nome = requestRestaurant.nome();
         this.cpf = requestRestaurant.cpf();
         this.telefone = requestRestaurant.telefone();
+        this.foto = requestRestaurant.foto();
+        this.plateFilter = requestRestaurant.plateFilter();
     }
 }

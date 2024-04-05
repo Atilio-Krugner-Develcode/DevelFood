@@ -1,6 +1,7 @@
 package br.com.develfood.develfood.Class;
 
 import br.com.develfood.develfood.Record.PlateFilterDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,8 +20,6 @@ public class PlateFilter {
     private Long id;
     private String nome;
 
-//    @OneToMany
-//    private List<TiposDeComida> tiposDeComidas;
 
 
     public PlateFilter(PlateFilterDTO data) {

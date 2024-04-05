@@ -41,7 +41,7 @@ public class PlateFilterController {
     @Transactional
     public ResponseEntity updatePlateFilter(@PathVariable Long id, @RequestBody @Validated PlateFilterDTO data) {
         if (id != null) {
-            Optional<PlateFilter> optionalPlateFilter = plateFilterRespository.findById(String.valueOf(id));
+            Optional<PlateFilter> optionalPlateFilter = plateFilterRespository.findById(Long.valueOf(String.valueOf(id)));
             if (optionalPlateFilter.isPresent()) {
                 PlateFilter plateFilter = optionalPlateFilter.get();
                 plateFilter.setNome(data.nome());
@@ -57,7 +57,7 @@ public class PlateFilterController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity deletePlateFilter(@PathVariable String id){
-        plateFilterRespository.deleteById(id);
+        plateFilterRespository.deleteById(Long.valueOf(id));
         return   ResponseEntity.noContent().build();
     }
 

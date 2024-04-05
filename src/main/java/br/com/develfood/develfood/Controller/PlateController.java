@@ -3,6 +3,7 @@ package br.com.develfood.develfood.Controller;
 import br.com.develfood.develfood.Class.Plates;
 import br.com.develfood.develfood.Class.Restaurant;
 import br.com.develfood.develfood.Record.PlateDTO;
+import br.com.develfood.develfood.Record.RestauranteComPratosDTO;
 import br.com.develfood.develfood.Repository.PlateRepository;
 import br.com.develfood.develfood.Repository.RestaurantRepository;
 import jakarta.transaction.Transactional;
@@ -10,12 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/restaurant/plate")
@@ -26,16 +29,35 @@ public class PlateController {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-    @GetMapping("/{restaurantId}")
-    public ResponseEntity<List<Plates>> getPlatesByRestaurantId(@PathVariable Long restaurantId) {
-        Optional<Restaurant> restaurantOptional = restaurantRepository.findById(restaurantId);
-        if (restaurantOptional.isPresent()) {
-            List<Plates> plates = plateRepository.findByRestauranteId(restaurantId);
-            return ResponseEntity.ok(plates);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+//    @GetMapping("/{restaurantId}")
+//    public ResponseEntity<List<Plates>> getPlatesByRestaurantId(@PathVariable Long restaurantId) {
+//        Optional<Restaurant> restaurantOptional = restaurantRepository.findById(restaurantId);
+//        if (restaurantOptional.isPresent()) {
+//            List<Plates> plates = plateRepository.findByRestauranteId(restaurantId);
+//            return ResponseEntity.ok(plates);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+@GetMapping("/list")
+public ResponseEntity<Page<RestauranteComPratosDTO>> listarTodosPratos(@PageableDefault(size = 10) Pageable pageable) {
+    Page<Restaurant> restaurantesPage = restaurantRepository.findAll(pageable);
+
+    Page<RestauranteComPratosDTO> restaurantesComPratosPage = restaurantesPage.map(restaurante -> {
+        List<Plates> pratos = restaurante.getPratos();
+        List<PlateDTO> pratosDTO = pratos.stream()
+                .map(PlateDTO::new)
+                .collect(Collectors.toList());
+        return new RestauranteComPratosDTO(restaurante.getId(), restaurante.getNome(), restaurante.getCpf(), restaurante.getTelefone(), restaurante.getFoto(),
+                restaurante.getPlateFilter(), pratosDTO);
+    });
+
+    if (restaurantesComPratosPage.isEmpty()) {
+        return ResponseEntity.noContent().build();
     }
+
+    return ResponseEntity.ok(restaurantesComPratosPage);
+}
     @GetMapping
     public ResponseEntity<Page<Plates>> getAllPlate(
             @RequestParam(defaultValue = "0") int page,

@@ -3,6 +3,7 @@ package br.com.develfood.develfood.Controller;
 import br.com.develfood.develfood.Class.PlateFilter;
 import br.com.develfood.develfood.Class.Restaurant;
 import br.com.develfood.develfood.Record.RequestRestaurant;
+import br.com.develfood.develfood.Repository.PlateFilterRespository;
 import br.com.develfood.develfood.Repository.RestaurantRepository;
 
 import jakarta.transaction.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.validation.annotation.Validated;
@@ -17,14 +19,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
 @RestController
 @RequestMapping("/restaurant")
 public class RestaurantController {
 
     @Autowired
     private RestaurantRepository repository;
+    @Autowired
+    private PlateFilterRespository plateFilterRespository;
 
     @GetMapping
     public ResponseEntity <Page<Restaurant>>getAllRestaurant(
@@ -37,6 +39,16 @@ public class RestaurantController {
     }
     @PostMapping
     public ResponseEntity postRestaurant(@RequestBody @Validated RequestRestaurant body){
+
+        if(body.plateFilter() == null || body.plateFilter().getId() == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro de filtro");
+        }
+        Long idPlateFilter = body.plateFilter().getId();
+        Optional<PlateFilter>plateFilterOptional = plateFilterRespository.findById(idPlateFilter);
+        if(plateFilterOptional.isEmpty()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Comida não encontrada");
+        }
+        PlateFilter plateFilter = plateFilterOptional.get();
         Restaurant newRestaurant = new Restaurant(body);
         repository.save(newRestaurant);
         return ResponseEntity.ok().build();

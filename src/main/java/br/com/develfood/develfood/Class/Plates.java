@@ -1,6 +1,7 @@
 package br.com.develfood.develfood.Class;
 
 import br.com.develfood.develfood.Record.PlateDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,6 +30,9 @@ public class Plates {
     @JoinColumn(name = "restauranteid")
     private Restaurant restaurante;
 
+    @ManyToOne
+    @JoinColumn(name = "plate_filter_id")
+    private PlateFilter plateFilter;
 
 
 
@@ -38,5 +42,6 @@ public class Plates {
         this.foto = body.foto();
         this.preco = body.preco();
         this.categoria = body.categoria();
+        this.plateFilter = body.plateFilter();
     }
 }
