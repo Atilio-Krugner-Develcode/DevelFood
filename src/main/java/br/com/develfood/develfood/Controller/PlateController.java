@@ -3,6 +3,7 @@ package br.com.develfood.develfood.Controller;
 import br.com.develfood.develfood.Class.Plates;
 import br.com.develfood.develfood.Class.Restaurant;
 import br.com.develfood.develfood.Record.PlateDTO;
+import br.com.develfood.develfood.Record.PlatesDTO;
 import br.com.develfood.develfood.Record.RestauranteComPratosDTO;
 import br.com.develfood.develfood.Repository.PlateRepository;
 import br.com.develfood.develfood.Repository.RestaurantRepository;
@@ -29,16 +30,7 @@ public class PlateController {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-//    @GetMapping("/{restaurantId}")
-//    public ResponseEntity<List<Plates>> getPlatesByRestaurantId(@PathVariable Long restaurantId) {
-//        Optional<Restaurant> restaurantOptional = restaurantRepository.findById(restaurantId);
-//        if (restaurantOptional.isPresent()) {
-//            List<Plates> plates = plateRepository.findByRestauranteId(restaurantId);
-//            return ResponseEntity.ok(plates);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
+
 @GetMapping("/list")
 public ResponseEntity<Page<RestauranteComPratosDTO>> listarTodosPratos(@PageableDefault(size = 10) Pageable pageable) {
     Page<Restaurant> restaurantesPage = restaurantRepository.findAll(pageable);
@@ -59,7 +51,7 @@ public ResponseEntity<Page<RestauranteComPratosDTO>> listarTodosPratos(@Pageable
     return ResponseEntity.ok(restaurantesComPratosPage);
 }
     @GetMapping
-    public ResponseEntity<Page<Plates>> getAllPlate(
+    public ResponseEntity<Page<PlatesDTO>> getAllPlate(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String categoria
@@ -73,7 +65,10 @@ public ResponseEntity<Page<RestauranteComPratosDTO>> listarTodosPratos(@Pageable
             allPlate = plateRepository.findAll(pageable);
         }
 
-        return ResponseEntity.ok(allPlate);
+        Page<PlatesDTO> platesDTOPage = allPlate.map(plate -> new PlatesDTO(plate.getId(), plate.getNome(), plate.getDescricao(), plate.getFoto(),
+                plate.getPreco(), plate.getCategoria()));
+
+        return ResponseEntity.ok(platesDTOPage);
     }
 
 

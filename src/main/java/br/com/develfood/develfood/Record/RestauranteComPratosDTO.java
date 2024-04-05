@@ -9,7 +9,8 @@ public record RestauranteComPratosDTO(
         Long id,
         String nome,
         String cpf,
-        int telefone, String foto,
+        int telefone,
+        String foto,
 
         PlateFilter plateFilter,
         List<PlateDTO>Pratos
