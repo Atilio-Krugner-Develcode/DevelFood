@@ -1,5 +1,6 @@
 package br.com.develfood.develfood.Class;
 
+import br.com.develfood.develfood.Record.ClientDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,6 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+@Table(name = "cliente")
+
 public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -18,28 +21,19 @@ public class Cliente {
     private Long id;
     private String nome;
     private String sobrenome;
-    private int cpf;
+    private String cpf;
     private int telefone;
-    private int enull;
-    private String pratosFavoritos;
-
-//    @OneToMany(mappedBy = "cliente")
-//    private List<Endereco> endereco;
-
-    @ManyToMany
-    private List<Plates>pratos;
-
-    @OneToMany
-    private List<PratosFavoritos>pratosFavoritosList;
-
-    @OneToOne
-    private Cartoes cartoes;
-
-    @OneToMany
-    private List<Avaliacao> avaliacao;
+    private String foto;
 
 
-    @OneToMany
-    private List<pedido>pedidos;
 
+
+
+    public Cliente(ClientDTO data) {
+        this.nome = data.nome();
+        this.sobrenome = data.sobrenome();
+        this.cpf = data.cpf();
+        this.telefone = data.telefone();
+        this.foto = data.foto();
+    }
 }
