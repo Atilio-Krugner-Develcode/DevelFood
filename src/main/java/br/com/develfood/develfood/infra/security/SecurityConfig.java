@@ -32,6 +32,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/type/filter").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST,"/restaurant").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST,"/plate/create").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/seding-email").permitAll()
 
 
                         .requestMatchers(HttpMethod.PUT,"/type/{id}").hasRole("ADMIN")
