@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+import static java.awt.SystemColor.text;
+
 @Service
 public class EmailService {
 
@@ -19,6 +21,7 @@ public class EmailService {
 
     @Autowired
     private JavaMailSender emailSender;
+    
 
     public Email status(Email email) {
         email.setTempo(LocalDateTime.now());
@@ -27,6 +30,19 @@ public class EmailService {
             message.setFrom(email.getEmailFrom());
             message.setTo(email.getEmailTo());
             message.setSubject(email.getTitle());
+
+            String texto = email.getTexto();
+
+
+            
+            boolean estaEmMaiusculas = texto.equals(texto.toUpperCase());
+            estaEmMaiusculas = !estaEmMaiusculas;
+            if (!estaEmMaiusculas) {
+
+                email.setStatus(StatusEmail.ERROR);
+                return emailRepository.save(email);
+            }
+
             message.setText(email.getTexto());
             emailSender.send(message);
 
