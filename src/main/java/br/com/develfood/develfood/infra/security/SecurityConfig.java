@@ -34,6 +34,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/plate/create").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST,"/seding-email").permitAll()
                         .requestMatchers(HttpMethod.POST,"/client/create").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST,"/address/create").permitAll()
+
 
 
 
@@ -41,6 +43,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT,"/restaurant/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT,"/restaurant/plate/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT,"/client/{id}").hasRole("USER")
+                        .requestMatchers(HttpMethod.PUT,"/address/{id}").permitAll()
 
 
 
@@ -54,6 +57,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/restaurant/plate").permitAll()
                         .requestMatchers(HttpMethod.GET,"/restaurant/plate/list").permitAll()
                         .requestMatchers(HttpMethod.GET,"/client/all").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/address/list").permitAll()
+
 
 
 
