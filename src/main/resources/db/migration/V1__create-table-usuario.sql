@@ -3,6 +3,7 @@ CREATE TABLE users(
  login TEXT NOT NULL UNIQUE,
  password TEXT NOT NULL,
  usuarioId INTEGER,
+ user_email VARCHAR(255),
  role TEXT NOT NULL
 );
 

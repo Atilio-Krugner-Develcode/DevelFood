@@ -1,6 +1,7 @@
 package br.com.develfood.develfood.services;
 
 import br.com.develfood.develfood.Class.Email;
+import br.com.develfood.develfood.Class.User;
 import br.com.develfood.develfood.Enum.StatusEmail;
 import br.com.develfood.develfood.Repository.EmailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,41 +18,38 @@ import static java.awt.SystemColor.text;
 public class EmailService {
 
     @Autowired
-    EmailRepository emailRepository;
+    private EmailRepository emailRepository;
 
     @Autowired
     private JavaMailSender emailSender;
-    
+
+    public void sendRegistrationEmail(String userEmail) {
+        Email email = new Email();
+        email.setEmailFrom("minhanerf@gmail.com");
+        email.setEmailTo(userEmail);
+        email.setTitle("Agradecemos seu registro");
+        email.setTexto("Olá, \n\nObrigado por se registrar em nosso sistema. Esperamos que tenha uma ótima experiência!\n\nAtenciosamente, \nDevelFood");
+
+        status(email);
+    }
+
 
     public Email status(Email email) {
         email.setTempo(LocalDateTime.now());
-        try{
+        try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(email.getEmailFrom());
             message.setTo(email.getEmailTo());
             message.setSubject(email.getTitle());
-
-            String texto = email.getTexto();
-
-
-            
-            boolean estaEmMaiusculas = texto.equals(texto.toUpperCase());
-            estaEmMaiusculas = !estaEmMaiusculas;
-            if (!estaEmMaiusculas) {
-
-                email.setStatus(StatusEmail.ERROR);
-                return emailRepository.save(email);
-            }
-
             message.setText(email.getTexto());
+
             emailSender.send(message);
 
             email.setStatus(StatusEmail.SENT);
-        }catch (MailException e){
+        } catch (MailException e) {
             email.setStatus(StatusEmail.ERROR);
-        }finally {
+        } finally {
             return emailRepository.save(email);
         }
-
     }
 }

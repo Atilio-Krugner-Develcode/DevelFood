@@ -26,10 +26,14 @@ public class User implements UserDetails {
         private String login;
         private String password;
         private UserRole role;
+        private String userEmail;
 
-        public User(String login, String password, UserRole role){
+
+
+        public User(String login, String password, String userEmail, UserRole role){
             this.login = login;
             this.password = password;
+            this.userEmail = userEmail;
             this.role = role;
         }
 
@@ -66,5 +70,9 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getEmail() {
+        return this.userEmail;
     }
 }

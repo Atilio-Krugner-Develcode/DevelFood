@@ -7,6 +7,7 @@ import br.com.develfood.develfood.Record.LoginResponseDTO;
 import br.com.develfood.develfood.Record.RegisterDTO;
 import br.com.develfood.develfood.Repository.UserRepository;
 import br.com.develfood.develfood.infra.security.TokenService;
+import br.com.develfood.develfood.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +28,8 @@ public class AutentificacaoController {
     private UserRepository repository;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private EmailService emailService;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Validated AuthenticationDTO data){
@@ -39,13 +42,13 @@ public class AutentificacaoController {
     }
     @PostMapping("/registrar")
     public ResponseEntity registrar(@RequestBody @Validated RegisterDTO data){
-        if(this.repository.findByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
-
+        if(this.repository.findByLogin(data.login()) != null) {
+            return ResponseEntity.badRequest().build();
+        }
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-
-        User newUser = new User(data.login(), encryptedPassword, data.role());
-
+        User newUser = new User(data.login(), encryptedPassword, data.userEmail(), data.role());
         this.repository.save(newUser);
+        emailService.sendRegistrationEmail(newUser.getEmail());
         return ResponseEntity.ok().build();
     }
 }

@@ -6,6 +6,7 @@ CREATE TABLE email (
     title VARCHAR(255),
     texto TEXT,
     tempo TIMESTAMP,
+    user_id VARCHAR(255),
     status VARCHAR(255)
 );
 CREATE SEQUENCE IF NOT EXISTS email_id_seq START 1;
