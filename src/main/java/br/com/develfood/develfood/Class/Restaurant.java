@@ -26,14 +26,7 @@ public class Restaurant {
 
 
 
-//    @OneToMany
-//    private List<Pratos> pratos;
-//
-//    @OneToMany
-//    private  List<Avaliacao> avaliacao;
-//
-//    @OneToMany
-//    private List<pedido>pedidos;
+
 
     public void updateRestaurant(RequestRestaurant restaurant) {
         if (restaurant.nome() != null) {

@@ -19,8 +19,7 @@ public class PlateFilter {
     private Long id;
     private String nome;
 
-//    @OneToMany
-//    private List<TiposDeComida> tiposDeComidas;
+
 
 
     public PlateFilter(PlateFilterDTO data) {
