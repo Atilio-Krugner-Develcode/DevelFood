@@ -4,6 +4,7 @@ import br.com.develfood.develfood.Class.Restaurant;
 import br.com.develfood.develfood.Record.RequestRestaurant;
 import br.com.develfood.develfood.Repository.RestaurantRepository;
 
+import br.com.develfood.develfood.Services.RestaurantService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,9 @@ public class RestaurantController {
     @Autowired
     private RestaurantRepository repository;
 
+    @Autowired
+    private RestaurantService restaurantService;
+
     @GetMapping
     public ResponseEntity getAllRestaurant(){
         var allRestaurant = repository.findAll();
@@ -36,25 +40,15 @@ public class RestaurantController {
 
     }
 
-    @PutMapping("{id}")
-    @Transactional
+    @PutMapping("/{id}")
     public ResponseEntity updateRestaurant(@PathVariable Long id, @RequestBody @Validated RequestRestaurant data) {
         if (id != null) {
-            Optional<Restaurant> optionalRestaurant = repository.findById(id);
-            if (optionalRestaurant.isPresent()) {
-                Restaurant restaurant = optionalRestaurant.get();
-                restaurant.setNome(data.nome());
-                restaurant.setCpf(data.cpf());
-                restaurant.setTelefone(data.telefone());
-                restaurant.setFoto(data.foto());
-                return ResponseEntity.ok().build();
-            } else {
-                return ResponseEntity.notFound().build();
-            }
+            return restaurantService.updateRestaurant(id, data);
         } else {
             return ResponseEntity.badRequest().build();
         }
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteRestaurant(@PathVariable String id){
