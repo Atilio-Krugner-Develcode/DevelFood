@@ -1,7 +1,7 @@
 package br.com.develfood.develfood.Record;
 
 import br.com.develfood.develfood.Class.Endereco;
-import br.com.develfood.develfood.Class.Restaurant;
+
 
 public record AddressDTO(
         Long id,

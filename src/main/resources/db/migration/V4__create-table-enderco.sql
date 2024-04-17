@@ -8,6 +8,7 @@ CREATE TABLE endereco(
  cep VARCHAR(255),
  enderecoId INTEGER,
  restaurant_id INTEGER,
+ cliente_id INTEGER,
  FOREIGN KEY (enderecoId) REFERENCES cliente(id),
  FOREIGN KEY (enderecoId) REFERENCES restaurant(id)
 );

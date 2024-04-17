@@ -25,6 +25,11 @@ public class Endereco {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
+
     public Endereco(AddressDTO body) {
         this.rua = body.rua();
         this.numero = body.numero();
