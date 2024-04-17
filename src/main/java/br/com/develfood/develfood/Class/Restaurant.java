@@ -4,7 +4,6 @@ import br.com.develfood.develfood.Record.RequestRestaurant;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 
 @Table(name = "restaurant")
 @Entity
@@ -22,10 +21,6 @@ public class Restaurant {
     private String cpf;
     private int telefone;
     private String foto;
-
-
-
-
 
 
     public void updateRestaurant(RequestRestaurant restaurant) {

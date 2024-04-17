@@ -22,7 +22,7 @@ public class RestaurantService {
             restaurant.setCpf(data.cpf());
             restaurant.setTelefone(data.telefone());
             restaurant.setFoto(data.foto());
-            repository.save(restaurant); // Salva as alterações no banco de dados
+            repository.save(restaurant);
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
