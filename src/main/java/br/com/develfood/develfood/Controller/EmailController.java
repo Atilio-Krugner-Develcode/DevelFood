@@ -2,11 +2,10 @@ package br.com.develfood.develfood.Controller;
 
 import br.com.develfood.develfood.Class.Email;
 import br.com.develfood.develfood.Record.EmailDTO;
-import br.com.develfood.develfood.services.EmailService;
+import br.com.develfood.develfood.Services.EmailService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
