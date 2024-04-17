@@ -3,6 +3,7 @@ package br.com.develfood.develfood.Services;
 import br.com.develfood.develfood.Class.PlateFilter;
 import br.com.develfood.develfood.Record.PlateFilterDTO;
 import br.com.develfood.develfood.Repository.PlateFilterRespository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +29,7 @@ public class PlateFilterService {
         return ResponseEntity.ok().build();
     }
 
+    @Transactional
     public ResponseEntity updatePlateFilter(Long id, PlateFilterDTO data) {
         if (id != null) {
             Optional<PlateFilter> optionalPlateFilter = plateFilterRepository.findById(id);

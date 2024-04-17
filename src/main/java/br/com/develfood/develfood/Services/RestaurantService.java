@@ -5,6 +5,7 @@ import br.com.develfood.develfood.Class.Restaurant;
 import br.com.develfood.develfood.Record.RequestRestaurant;
 import br.com.develfood.develfood.Repository.PlateFilterRespository;
 import br.com.develfood.develfood.Repository.RestaurantRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,10 +36,11 @@ public class RestaurantService {
         PlateFilter plateFilter = plateFilterOptional.orElseThrow(() -> new IllegalArgumentException("Comida não encontrada"));
 
         Restaurant newRestaurant = new Restaurant(body);
-        newRestaurant.setPlateFilter(plateFilter); // Definir o filtro de prato para o restaurante
+        newRestaurant.setPlateFilter(plateFilter);
         return restaurantRepository.save(newRestaurant);
     }
 
+    @Transactional
     public Restaurant updateRestaurant(Long id, RequestRestaurant data) {
         Restaurant restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Restaurante não encontrado"));

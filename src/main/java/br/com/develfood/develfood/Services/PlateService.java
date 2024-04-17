@@ -7,6 +7,7 @@ import br.com.develfood.develfood.Record.PlatesDTO;
 import br.com.develfood.develfood.Record.RestauranteComPratosDTO;
 import br.com.develfood.develfood.Repository.PlateRepository;
 import br.com.develfood.develfood.Repository.RestaurantRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -65,7 +66,7 @@ public class PlateService {
             return ResponseEntity.notFound().build();
         }
     }
-
+    @Transactional
     public ResponseEntity updatePlate(Long id, PlateDTO data) {
         if (id != null) {
             Optional<Plates> optionalPlates = plateRepository.findById(String.valueOf(id));
