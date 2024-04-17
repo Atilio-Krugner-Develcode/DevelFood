@@ -56,7 +56,7 @@ public class AddressController {
         Optional<Restaurant> optionalRestaurant = repository.findById(restaurantId);
         if (optionalRestaurant.isPresent()) {
             Restaurant restaurant = optionalRestaurant.get();
-            if (restaurant.getEndereco() != null) {
+            if (!restaurant.getEndereco().isEmpty()) {
                 return ResponseEntity.badRequest().body("Este restaurante já possui um endereço. Não é permitido criar mais de um.");
             }
             Endereco newEndereco = new Endereco(body);
