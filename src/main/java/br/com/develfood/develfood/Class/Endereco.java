@@ -19,8 +19,5 @@ public class Endereco {
     private String cidade;
     private String bairro;
 
-//    @ManyToOne
-//    private Cliente cliente;
-//    @ManyToOne
-//    private Restaurant restaurante;
+
 }
