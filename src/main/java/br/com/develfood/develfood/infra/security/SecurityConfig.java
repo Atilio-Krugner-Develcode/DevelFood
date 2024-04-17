@@ -33,7 +33,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/restaurant").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST,"/plate/create").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST,"/seding-email").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/client/create").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST,"/client/create").permitAll()
                         .requestMatchers(HttpMethod.POST,"/address/create").permitAll()
 
 

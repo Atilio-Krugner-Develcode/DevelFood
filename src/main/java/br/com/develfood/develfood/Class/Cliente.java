@@ -1,6 +1,7 @@
 package br.com.develfood.develfood.Class;
 
 import br.com.develfood.develfood.Record.ClientDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,7 +27,9 @@ public class Cliente {
     private String foto;
 
 
-
+    @OneToMany(mappedBy = "cliente")
+    @JsonIgnore
+    private List<Endereco> endereco;
 
 
     public Cliente(ClientDTO data) {
