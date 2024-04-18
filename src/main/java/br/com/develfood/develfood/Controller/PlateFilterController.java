@@ -3,6 +3,7 @@ package br.com.develfood.develfood.Controller;
 import br.com.develfood.develfood.Class.PlateFilter;
 import br.com.develfood.develfood.Record.PlateFilterDTO;
 import br.com.develfood.develfood.Repository.PlateFilterRespository;
+import br.com.develfood.develfood.Services.PlateFilterService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,46 +20,28 @@ import java.util.Optional;
 public class PlateFilterController {
 
     @Autowired
-    private PlateFilterRespository plateFilterRespository;
+    private PlateFilterService plateFilterService;
 
     @GetMapping
-    public ResponseEntity <Page<PlateFilter>>getAllPlateFilter(
+    public ResponseEntity<Page<PlateFilter>> getAllPlateFilters(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
-    ){
-        Pageable pageable = PageRequest.of(page, size);
-        Page<PlateFilter> allPlateFilter = plateFilterRespository.findAll(pageable);
-        return ResponseEntity.ok(allPlateFilter);
+    ) {
+        return ResponseEntity.ok(plateFilterService.getAllPlateFilters(page, size));
     }
 
     @PostMapping("/filter")
-    public ResponseEntity postPlateFilter(@RequestBody @Validated PlateFilterDTO body){
-        PlateFilter newPlateFilter = new PlateFilter(body);
-        plateFilterRespository.save(newPlateFilter);
-        return ResponseEntity.ok().build();
+    public ResponseEntity createPlateFilter(@RequestBody @Validated PlateFilterDTO body) {
+        return plateFilterService.createPlateFilter(body);
     }
-    @PutMapping("/{id}")
-    @Transactional
-    public ResponseEntity updatePlateFilter(@PathVariable Long id, @RequestBody @Validated PlateFilterDTO data) {
-        if (id != null) {
-            Optional<PlateFilter> optionalPlateFilter = plateFilterRespository.findById(Long.valueOf(String.valueOf(id)));
-            if (optionalPlateFilter.isPresent()) {
-                PlateFilter plateFilter = optionalPlateFilter.get();
-                plateFilter.setNome(data.nome());
 
-                return ResponseEntity.ok().build();
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+    @PutMapping("/{id}")
+    public ResponseEntity updatePlateFilter(@PathVariable Long id, @RequestBody @Validated PlateFilterDTO data) {
+        return plateFilterService.updatePlateFilter(id, data);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deletePlateFilter(@PathVariable String id){
-        plateFilterRespository.deleteById(Long.valueOf(id));
-        return   ResponseEntity.noContent().build();
+    public ResponseEntity deletePlateFilter(@PathVariable Long id) {
+        return plateFilterService.deletePlateFilter(id);
     }
-
 }

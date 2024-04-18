@@ -1,7 +1,6 @@
-package br.com.develfood.develfood.services;
+package br.com.develfood.develfood.Services;
 
 import br.com.develfood.develfood.Class.Email;
-import br.com.develfood.develfood.Class.User;
 import br.com.develfood.develfood.Enum.StatusEmail;
 import br.com.develfood.develfood.Repository.EmailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-
-import static java.awt.SystemColor.text;
 
 @Service
 public class EmailService {

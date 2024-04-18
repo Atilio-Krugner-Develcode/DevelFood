@@ -7,7 +7,8 @@ import br.com.develfood.develfood.Record.LoginResponseDTO;
 import br.com.develfood.develfood.Record.RegisterDTO;
 import br.com.develfood.develfood.Repository.UserRepository;
 import br.com.develfood.develfood.infra.security.TokenService;
-import br.com.develfood.develfood.services.EmailService;
+import br.com.develfood.develfood.Services.EmailService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -50,5 +51,13 @@ public class AutentificacaoController {
         this.repository.save(newUser);
         emailService.sendRegistrationEmail(newUser.getEmail());
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity logout(HttpServletRequest request) {
+
+        request.getSession().invalidate();
+
+        return ResponseEntity.ok().body("Logout realizado com sucesso!");
     }
 }
