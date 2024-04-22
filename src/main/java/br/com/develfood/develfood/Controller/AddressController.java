@@ -47,6 +47,10 @@ public class AddressController {
     public ResponseEntity updateAddress(@PathVariable Long id, @RequestBody @Validated AddressDTO data) {
         return addressService.updateAddress(id, data);
     }
+    @DeleteMapping("/customer/{customerId}/address/{addressId}")
+    public ResponseEntity deleteAddress(@PathVariable Long customerId, @PathVariable Long addressId) {
+        return addressService.deleteAddress(customerId, addressId);
+    }
 }
 
 

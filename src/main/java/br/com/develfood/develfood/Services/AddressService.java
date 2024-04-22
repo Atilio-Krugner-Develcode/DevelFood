@@ -9,9 +9,11 @@ import br.com.develfood.develfood.Record.RestaurantAndAddress;
 import br.com.develfood.develfood.Repository.AddressRepository;
 import br.com.develfood.develfood.Repository.ClientRepository;
 import br.com.develfood.develfood.Repository.RestaurantRepository;
+import jakarta.mail.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -114,4 +116,18 @@ public class AddressService {
         }
     }
 
+    public ResponseEntity deleteAddress(Long customerId, Long addressId) {
+        Optional<Endereco> optionalAddress = addressRepository.findById(addressId);
+        if (optionalAddress.isPresent()) {
+            Endereco address = optionalAddress.get();
+            if (address.getCliente().getId().equals(customerId)) {
+                addressRepository.deleteById(addressId);
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("O endereço não pertence ao cliente especificado.");
+            }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

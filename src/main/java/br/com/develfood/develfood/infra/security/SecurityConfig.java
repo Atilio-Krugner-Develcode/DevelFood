@@ -52,6 +52,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE,"/restaurant/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE,"/type/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE,"/restaurant/plate/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/address/customer/*/address/*").hasRole("USER")
+
 
 
                         .requestMatchers(HttpMethod.GET,"/restaurant").permitAll()
