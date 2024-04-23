@@ -41,7 +41,8 @@ public class PlateFilterController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deletePlateFilter(@PathVariable Long id) {
-        return plateFilterService.deletePlateFilter(id);
+    public ResponseEntity<Void> deletePlateFilter(@PathVariable Long id) {
+        plateFilterService.deletePlateFilter(id);
+        return ResponseEntity.noContent().build();
     }
 }

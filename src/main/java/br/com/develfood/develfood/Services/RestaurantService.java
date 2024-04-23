@@ -64,9 +64,8 @@ public class RestaurantService {
         }
     }
 
-    public ResponseEntity deleteRestaurant(Long id) {
+    public void deleteRestaurant(Long id) {
         restaurantRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
     }
 }
 

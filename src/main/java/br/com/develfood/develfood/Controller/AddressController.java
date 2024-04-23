@@ -1,30 +1,18 @@
 package br.com.develfood.develfood.Controller;
 
-import br.com.develfood.develfood.Class.Cliente;
 import br.com.develfood.develfood.Class.Endereco;
-import br.com.develfood.develfood.Class.Plates;
-import br.com.develfood.develfood.Class.Restaurant;
 import br.com.develfood.develfood.Record.AddressDTO;
-import br.com.develfood.develfood.Record.ClientAndAddressDTO;
-import br.com.develfood.develfood.Record.PlateDTO;
-import br.com.develfood.develfood.Record.RestaurantAndAddress;
 import br.com.develfood.develfood.Repository.AddressRepository;
-import br.com.develfood.develfood.Repository.ClientRepository;
-import br.com.develfood.develfood.Repository.RestaurantRepository;
 import br.com.develfood.develfood.Services.AddressService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/address")
@@ -32,6 +20,8 @@ public class AddressController {
 
     @Autowired
     private AddressService addressService;
+    @Autowired
+    private AddressRepository addressRepository;
 
     @GetMapping("/list")
     public ResponseEntity<Object> entitiesAndAddresses(@PageableDefault(size = 10) Pageable pageable) {
@@ -48,8 +38,14 @@ public class AddressController {
         return addressService.updateAddress(id, data);
     }
     @DeleteMapping("/customer/{customerId}/address/{addressId}")
-    public ResponseEntity deleteAddress(@PathVariable Long customerId, @PathVariable Long addressId) {
-        return addressService.deleteAddress(customerId, addressId);
+    public ResponseEntity<String> deleteAddress(@PathVariable Long customerId, @PathVariable Long addressId) {
+        addressService.deleteAddress(customerId, addressId);
+        Optional<Endereco> optionalAddress = addressRepository.findById(addressId);
+        if (!optionalAddress.isPresent()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("O endereço não pertence ao cliente especificado.");
+        }
     }
 }
 

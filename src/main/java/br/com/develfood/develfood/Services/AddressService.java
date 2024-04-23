@@ -116,18 +116,14 @@ public class AddressService {
         }
     }
 
-    public ResponseEntity deleteAddress(Long customerId, Long addressId) {
+    public void deleteAddress(Long customerId, Long addressId) {
         Optional<Endereco> optionalAddress = addressRepository.findById(addressId);
         if (optionalAddress.isPresent()) {
             Endereco address = optionalAddress.get();
             if (address.getCliente().getId().equals(customerId)) {
                 addressRepository.deleteById(addressId);
-                return ResponseEntity.noContent().build();
-            } else {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("O endereço não pertence ao cliente especificado.");
             }
-        } else {
-            return ResponseEntity.notFound().build();
+
         }
     }
 }

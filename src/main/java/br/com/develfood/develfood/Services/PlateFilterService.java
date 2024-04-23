@@ -45,9 +45,8 @@ public class PlateFilterService {
         }
     }
 
-    public ResponseEntity deletePlateFilter(Long id) {
+    public void deletePlateFilter(Long id) {
         plateFilterRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
     }
 }
 

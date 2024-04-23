@@ -54,8 +54,9 @@ public class PlateController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deletePlate(@PathVariable Long id) {
-        return plateService.deletePlate(id);
+    public ResponseEntity<Void> deletePlate(@PathVariable Long id) {
+        plateService.deletePlate(id);
+        return ResponseEntity.noContent().build();
     }
 }
 

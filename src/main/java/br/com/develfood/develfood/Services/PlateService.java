@@ -97,9 +97,9 @@ public class PlateService {
         }
     }
 
-    public ResponseEntity deletePlate(Long id) {
+    public void deletePlate(Long id) {
         plateRepository.deleteById(String.valueOf(id));
-        return ResponseEntity.noContent().build();
     }
+
 }
 
