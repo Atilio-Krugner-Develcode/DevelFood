@@ -23,8 +23,7 @@ public class Cliente {
     private int enull;
     private String pratosFavoritos;
 
-//    @OneToMany(mappedBy = "cliente")
-//    private List<Endereco> endereco;
+
 
     @ManyToMany
     private List<Plates>pratos;
