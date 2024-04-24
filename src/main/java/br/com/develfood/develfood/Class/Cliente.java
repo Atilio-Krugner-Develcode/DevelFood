@@ -39,6 +39,6 @@ public class Cliente {
 
 
     @OneToMany
-    private List<pedido>pedidos;
+    private List<Pedido>pedidos;
 
 }
