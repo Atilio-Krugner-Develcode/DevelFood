@@ -31,6 +31,10 @@ public class Cliente {
     @JsonIgnore
     private List<Endereco> endereco;
 
+    @OneToMany(mappedBy = "cliente")
+    @JsonIgnore
+    private List<Pedido>pedido;
+
 
     public Cliente(ClientDTO data) {
         this.nome = data.nome();

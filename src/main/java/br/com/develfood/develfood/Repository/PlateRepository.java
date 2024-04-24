@@ -10,7 +10,7 @@ import java.util.List;
 public interface PlateRepository extends JpaRepository<Plates, String> {
 
         Page<Plates> findByCategoriaOrderByRestauranteNome(String categoria, Pageable pageable);
-    List<Plates> findByRestauranteId(Long restauranteId);
+
 
 
 }

@@ -37,6 +37,8 @@ public class Restaurant {
     @JsonIgnore
     private List<Endereco> endereco;
 
+
+
     public static Restaurant findById(Long id) {
         return findById(id);
     }

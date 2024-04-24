@@ -5,6 +5,7 @@ CREATE TABLE cliente (
  cpf CHAR(11),
  telefone NUMERIC ,
  clienteId INTEGER,
+ pedidoId INTEGER,
  pratosFavoritos VARCHAR(255),
  cards INTEGER,
  foto VARCHAR(255),

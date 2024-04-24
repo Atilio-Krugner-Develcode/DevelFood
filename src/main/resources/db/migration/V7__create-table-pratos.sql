@@ -5,6 +5,6 @@ CREATE TABLE pratos (
     foto VARCHAR(255),
     preco NUMERIC(6, 2),
     categoria VARCHAR(255),
-    restauranteId INTEGER,  -- Correção do nome da coluna
+    restauranteId INTEGER,
     FOREIGN KEY (restauranteId) REFERENCES restaurant(id)
 );

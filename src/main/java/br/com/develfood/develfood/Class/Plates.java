@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Getter
@@ -34,6 +35,10 @@ public class Plates {
     @JoinColumn(name = "plate_filter_id")
     private PlateFilter plateFilter;
 
+    @OneToMany(mappedBy = "plates" )
+    @JsonIgnore
+    private List<Pedido> pedido;
+
 
 
     public Plates(PlateDTO body) {
@@ -43,5 +48,9 @@ public class Plates {
         this.preco = body.preco();
         this.categoria = body.categoria();
         this.plateFilter = body.plateFilter();
+    }
+
+    public void size() {
+
     }
 }

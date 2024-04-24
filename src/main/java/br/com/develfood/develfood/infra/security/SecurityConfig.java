@@ -36,6 +36,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/client/create").hasRole("USER")
                         .requestMatchers(HttpMethod.POST,"/address/create").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/logout").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/pedidos/create").permitAll()
+
 
 
 
@@ -62,6 +64,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/restaurant/plate/list").permitAll()
                         .requestMatchers(HttpMethod.GET,"/client/all").permitAll()
                         .requestMatchers(HttpMethod.GET,"/address/list").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/pedidos/list").permitAll()
+
 
 
 

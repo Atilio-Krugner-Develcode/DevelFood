@@ -3,10 +3,14 @@ CREATE TABLE pedido(
  tempoInicial DATE,
  tempoAtualizado DATE,
  total FLOAT,
+ quantidade INTEGER,
  tipoPagamento VARCHAR(100),
  estadoServico BOOLEAN,
- pedidoId INTEGER,
- FOREIGN KEY (pedidoId) REFERENCES cliente(id),
- FOREIGN KEY (pedidoId) REFERENCES restaurant(id)
+ pedidore INTEGER,
+ pedidoscl INTEGER,
+ estatus VARCHAR(255),
+ pratos INTEGER,
+ FOREIGN KEY (pedidoscl) REFERENCES cliente(id),
+ FOREIGN KEY (pedidore) REFERENCES restaurant(id)
 
 );

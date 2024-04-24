@@ -6,6 +6,7 @@ CREATE TABLE restaurant(
  restauranteId INTEGER,
  foto VARCHAR(255),
  tipos INTEGER,
+ pedidosId INTEGER,
  localizacao INTEGER,
  FOREIGN KEY (restauranteId) REFERENCES users(id)
 
