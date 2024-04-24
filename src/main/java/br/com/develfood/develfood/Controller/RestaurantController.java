@@ -6,6 +6,7 @@ import br.com.develfood.develfood.Record.RequestRestaurant;
 import br.com.develfood.develfood.Repository.PlateFilterRespository;
 import br.com.develfood.develfood.Repository.RestaurantRepository;
 
+import br.com.develfood.develfood.Services.RestaurantService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,62 +25,31 @@ import java.util.Optional;
 public class RestaurantController {
 
     @Autowired
-    private RestaurantRepository repository;
-    @Autowired
-    private PlateFilterRespository plateFilterRespository;
+    private RestaurantService restaurantService;
 
     @GetMapping
-    public ResponseEntity <Page<Restaurant>>getAllRestaurant(
+    public ResponseEntity<Page<Restaurant>> getAllRestaurants(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
-    ){
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Restaurant> allRestaurant = repository.findAll(pageable);
-        return ResponseEntity.ok(allRestaurant);
+    ) {
+        return restaurantService.getAllRestaurants(page, size);
     }
+
     @PostMapping
-    public ResponseEntity postRestaurant(@RequestBody @Validated RequestRestaurant body){
-
-        if(body.plateFilter() == null || body.plateFilter().getId() == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro de filtro");
-        }
-        Long idPlateFilter = body.plateFilter().getId();
-        Optional<PlateFilter>plateFilterOptional = plateFilterRespository.findById(idPlateFilter);
-        if(plateFilterOptional.isEmpty()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Comida não encontrada");
-        }
-        PlateFilter plateFilter = plateFilterOptional.get();
-        Restaurant newRestaurant = new Restaurant(body);
-        repository.save(newRestaurant);
-        return ResponseEntity.ok().build();
-
+    public ResponseEntity postRestaurant(@RequestBody @Validated RequestRestaurant body) {
+        return restaurantService.postRestaurant(body);
     }
 
-    @PutMapping("{id}")
-    @Transactional
+    @PutMapping("/{id}")
     public ResponseEntity updateRestaurant(@PathVariable Long id, @RequestBody @Validated RequestRestaurant data) {
-        if (id != null) {
-            Optional<Restaurant> optionalRestaurant = repository.findById(id);
-            if (optionalRestaurant.isPresent()) {
-                Restaurant restaurant = optionalRestaurant.get();
-                restaurant.setNome(data.nome());
-                restaurant.setCpf(data.cpf());
-                restaurant.setTelefone(data.telefone());
-                restaurant.setFoto(data.foto());
-                return ResponseEntity.ok().build();
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+        return restaurantService.updateRestaurant(id, data);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteRestaurant(@PathVariable String id){
-        repository.deleteById(Long.valueOf(id));
-        return   ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deleteRestaurant(@PathVariable Long id) {
+        restaurantService.deleteRestaurant(id);
+        return ResponseEntity.noContent().build();
     }
 
-    }
+}
 

@@ -6,6 +6,7 @@ import br.com.develfood.develfood.Record.AuthenticationDTO;
 import br.com.develfood.develfood.Record.LoginResponseDTO;
 import br.com.develfood.develfood.Record.RegisterDTO;
 import br.com.develfood.develfood.Repository.UserRepository;
+import br.com.develfood.develfood.Services.AutenticationService;
 import br.com.develfood.develfood.infra.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,25 +23,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("auth")
 public class AutentificacaoController {
     @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private UserRepository repository;
-    @Autowired
-    private TokenService tokenService;
+    private AutenticationService autenticacaoService;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Validated AuthenticationDTO data){
-        var usernamepassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
-        var auth = this.authenticationManager.authenticate(usernamepassword);
-        var token = tokenService.generateToken((User) auth.getPrincipal());
-        return  ResponseEntity.ok(new LoginResponseDTO(token));
+        String token = autenticacaoService.autenticarUsuario(data.login(), data.password());
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
+
     @PostMapping("/registrar")
     public ResponseEntity registrar(@RequestBody @Validated RegisterDTO data){
-        if(this.repository.findByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
-        String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.login(), encryptedPassword, data.role());
-        this.repository.save(newUser);
+        if(!autenticacaoService.registrarUsuario(data.login(), data.password(), String.valueOf(data.role()))) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok().build();
     }
 }
