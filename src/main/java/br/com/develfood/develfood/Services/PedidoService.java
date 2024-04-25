@@ -1,83 +1,86 @@
 package br.com.develfood.develfood.Services;
 
 import br.com.develfood.develfood.Class.*;
+import br.com.develfood.develfood.Record.PedidoDTO;
 import br.com.develfood.develfood.Repository.ClientRepository;
 import br.com.develfood.develfood.Repository.PedidoRepository;
 
 import br.com.develfood.develfood.Repository.PlateRepository;
 import br.com.develfood.develfood.Repository.RestaurantRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class PedidoService {
 
 
-    private final PedidoRepository pedidoRepository;
-    private final ClientRepository clientRepository;
-    private final PlateRepository plateRepository;
+    @Autowired
+    private PedidoRepository pedidoRepository;
 
-    public PedidoService(PedidoRepository pedidoRepository,
-                         ClientRepository clientRepository,
-                         PlateRepository plateRepository) {
-        this.pedidoRepository = pedidoRepository;
-        this.clientRepository = clientRepository;
-        this.plateRepository = plateRepository;
-    }
+    @Autowired
+    private ClientRepository clientRepository;
 
+    @Autowired
+    private RestaurantRepository restaurantRepository;
 
-    public void criarPedido(CriarPedidoDTO pedidoDTO) {
+    @Autowired
+    private PlateRepository plateRepository;
+
+    public Pedido criarPedido(CriarPedidoDTO pedidoDTO) {
         Cliente cliente = clientRepository.findById(pedidoDTO.getIdCliente())
-                .orElseThrow(() -> new NoSuchElementException("Cliente não encontrado com o ID fornecido: " + pedidoDTO.getIdCliente()));
+                .orElseThrow(() -> new NoSuchElementException("Cliente não encontrado com o ID: " + pedidoDTO.getIdCliente()));
+
+        Restaurant restaurante = restaurantRepository.findById(pedidoDTO.getIdRestaurantes())
+                .orElseThrow(() -> new NoSuchElementException("Restaurante não encontrado com o ID: " + pedidoDTO.getIdRestaurantes()));
 
         Plates prato = plateRepository.findById(String.valueOf(pedidoDTO.getIdPrato()))
-                .orElseThrow(() -> new NoSuchElementException("Prato não encontrado com o ID fornecido: " + pedidoDTO.getIdPrato()));
-
-        if (pedidoDTO.getQuantidade() <= 0) {
-            throw new IllegalArgumentException("A quantidade do pedido deve ser maior que zero");
-        }
-
-        String status = "Em preparação";
+                .orElseThrow(() -> new NoSuchElementException("Prato não encontrado com o ID: " + pedidoDTO.getIdPrato()));
 
         Pedido pedido = new Pedido();
         pedido.setCliente(cliente);
+        pedido.setRestaurantes(restaurante);
         pedido.setPlates(prato);
         pedido.setQuantidade(pedidoDTO.getQuantidade());
-        pedido.setEstatus(status);
+        pedido.setEstatus(pedido.getEstatus());
 
-        pedidoRepository.save(pedido);
-    }
-    public List<Pedido> listarPedidos() {
-        List<Pedido> pedidos = pedidoRepository.findAll();
-
-        for (Pedido pedido : pedidos) {
-            pedido.setPlates(plateRepository.findById(String.valueOf(pedido.getPlates().getId()))
-                    .orElseThrow(() -> new NoSuchElementException("Prato não encontrado com o ID: " + pedido.getPlates().getId())));
-        }
-
-        return pedidos;
+        return pedidoRepository.save(pedido);
     }
 
+    public PedidoDTO obterPedidoDetalhadoPorId(Long id) {
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Pedido não encontrado com o ID: " + id));
 
+        Cliente cliente = pedido.getCliente();
+        Plates prato = pedido.getPlates();
 
+        BigDecimal total;
+        if (prato != null) {
+            total = prato.getPreco().multiply(BigDecimal.valueOf(pedido.getQuantidade()));
+        } else {
 
-        public Pedido buscarPedidoPorId(Long id) {
-            return pedidoRepository.findById(id)
-                    .orElseThrow(() -> new NoSuchElementException("Pedido não encontrado"));
+            total = BigDecimal.ZERO;
         }
 
-        public void atualizarPedido(Long id, Pedido pedidoAtualizado) {
-            Pedido pedido = buscarPedidoPorId(id);
-            pedido.setId(pedidoAtualizado.getId());
-            pedidoRepository.save(pedido);
-        }
+        PedidoDTO pedidoDetalhadoDTO = new PedidoDTO(
+                pedido.getId(),
+                total,
+                pedido.getQuantidade(),
+                "Em preparação",
+                prato,
+                cliente
+        );
 
-        public void deletarPedido(Long id) {
-            pedidoRepository.deleteById(id);
-        }
+        return pedidoDetalhadoDTO;
     }
+
+
+}
+
 
 

@@ -16,6 +16,7 @@ public class CriarPedidoDTO {
 
     private Long idCliente;
     private Long idPrato;
+    private Long idRestaurantes;
     private int quantidade;
 
 }

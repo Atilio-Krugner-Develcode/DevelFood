@@ -37,6 +37,10 @@ public class Restaurant {
     @JsonIgnore
     private List<Endereco> endereco;
 
+    @OneToMany(mappedBy = "restaurantes")
+    @JsonIgnore
+    private List<Pedido>pedido;
+
 
 
     public static Restaurant findById(Long id) {
