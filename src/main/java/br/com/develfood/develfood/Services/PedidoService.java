@@ -5,6 +5,7 @@ import br.com.develfood.develfood.Class.Pedido.CriarPedidoDTO;
 import br.com.develfood.develfood.Class.Pedido.Pedido;
 import br.com.develfood.develfood.Class.Pedido.PedidoDetalhado;
 import br.com.develfood.develfood.Record.PedidoDTO;
+import br.com.develfood.develfood.Record.PlateDTO;
 import br.com.develfood.develfood.Record.PlatesDTO;
 import br.com.develfood.develfood.Record.RequestRestaurant;
 import br.com.develfood.develfood.Repository.ClientRepository;
@@ -13,13 +14,16 @@ import br.com.develfood.develfood.Repository.PedidoRepository;
 import br.com.develfood.develfood.Repository.PlateRepository;
 import br.com.develfood.develfood.Repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class PedidoService {
@@ -104,6 +108,29 @@ public class PedidoService {
         }
         return pedidosDetalhados;
     }
+
+    @Transactional
+    public ResponseEntity updatePedido(Long id, PedidoDTO data) {
+        if (id != null) {
+            Optional<Pedido> optionalPedido = pedidoRepository.findById(Long.valueOf(String.valueOf(id)));
+            if (optionalPedido.isPresent()) {
+                Pedido pedido = optionalPedido.get();
+                pedido.setQuantidade(data.quantidade());
+                pedido.setFormaPagamento(data.formaPagamento());
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+    
+    public void deletePedido(Long id) {
+        pedidoRepository.deleteById(Long.valueOf(String.valueOf(id)));
+    }
+
+
 }
 
 

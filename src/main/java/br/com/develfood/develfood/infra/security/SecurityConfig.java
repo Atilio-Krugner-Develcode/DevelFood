@@ -48,6 +48,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT,"/restaurant/plate/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT,"/client/{id}").hasRole("USER")
                         .requestMatchers(HttpMethod.PUT,"/address/{id}").permitAll()
+                        .requestMatchers(HttpMethod.PUT,"/pedidos/{id}").permitAll()
+
 
 
 
@@ -55,6 +57,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE,"/type/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE,"/restaurant/plate/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/address/customer/*/address/*").hasRole("USER")
+                        .requestMatchers(HttpMethod.DELETE, "/pedidos/{id}").permitAll()
+
 
 
 
