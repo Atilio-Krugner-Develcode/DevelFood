@@ -1,5 +1,6 @@
 package br.com.develfood.develfood.Services;
 
+import br.com.develfood.develfood.Class.Pedido.Pedido;
 import br.com.develfood.develfood.Class.PlateFilter;
 import br.com.develfood.develfood.Class.Restaurant;
 import br.com.develfood.develfood.Record.RequestRestaurant;

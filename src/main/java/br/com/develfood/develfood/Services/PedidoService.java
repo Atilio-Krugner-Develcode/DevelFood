@@ -1,7 +1,12 @@
 package br.com.develfood.develfood.Services;
 
 import br.com.develfood.develfood.Class.*;
+import br.com.develfood.develfood.Class.Pedido.CriarPedidoDTO;
+import br.com.develfood.develfood.Class.Pedido.Pedido;
+import br.com.develfood.develfood.Class.Pedido.PedidoDetalhado;
 import br.com.develfood.develfood.Record.PedidoDTO;
+import br.com.develfood.develfood.Record.PlatesDTO;
+import br.com.develfood.develfood.Record.RequestRestaurant;
 import br.com.develfood.develfood.Repository.ClientRepository;
 import br.com.develfood.develfood.Repository.PedidoRepository;
 
@@ -11,10 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @Service
 public class PedidoService {
@@ -48,38 +51,55 @@ public class PedidoService {
         pedido.setPlates(prato);
         pedido.setQuantidade(pedidoDTO.getQuantidade());
         pedido.setEstatus(pedido.getEstatus());
+        pedido.setData(LocalDate.now());
+        pedido.setFormaPagamento(pedidoDTO.getFormaPagamento());
+
+        BigDecimal precoUnitario = pedido.getPlates().getPreco();
+        int quantidade = pedido.getQuantidade();
+        BigDecimal total = precoUnitario.multiply(BigDecimal.valueOf(quantidade));
+        pedido.setTotal(total);
 
         return pedidoRepository.save(pedido);
     }
 
-    public PedidoDTO obterPedidoDetalhadoPorId(Long id) {
+    public PedidoDetalhado obterPedidoDetalhadoPorId(Long id) {
         Pedido pedido = pedidoRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Pedido não encontrado com o ID: " + id));
 
-        Cliente cliente = pedido.getCliente();
-        Plates prato = pedido.getPlates();
+        PedidoDetalhado pedidoDetalhado = new PedidoDetalhado();
+        pedidoDetalhado.setId(pedido.getId());
+        pedidoDetalhado.setTotal(pedido.getTotal());
+        pedidoDetalhado.setQuantidade(pedido.getQuantidade());
+        pedidoDetalhado.setEstatus("Em preparação"); // Definindo o estatus manualmente como "Em preparação"
+        pedidoDetalhado.setData(pedido.getData());
+        pedidoDetalhado.setFormaPagamento(pedido.getFormaPagamento());
 
-        BigDecimal total;
-        if (prato != null) {
-            total = prato.getPreco().multiply(BigDecimal.valueOf(pedido.getQuantidade()));
-        } else {
+        Plates pratoDTO = new Plates();
+        pratoDTO.setId(pedido.getPlates().getId());
+        pratoDTO.setNome(pedido.getPlates().getNome());
+        pratoDTO.setDescricao(pedido.getPlates().getDescricao());
+        pratoDTO.setFoto(pedido.getPlates().getFoto());
+        pratoDTO.setPreco(pedido.getPlates().getPreco());
+        pratoDTO.setCategoria(pedido.getPlates().getCategoria());
+        pratoDTO.setPlateFilter(pedido.getRestaurantes().getPlateFilter());
+        pedidoDetalhado.setPrato(pratoDTO);
 
-            total = BigDecimal.ZERO;
-        }
+        Restaurant restauranteDTO = new Restaurant();
+        restauranteDTO.setId(pedido.getRestaurantes().getId());
+        restauranteDTO.setNome(pedido.getRestaurantes().getNome());
+        restauranteDTO.setCpf(pedido.getRestaurantes().getCpf());
+        restauranteDTO.setTelefone(pedido.getRestaurantes().getTelefone());
+        restauranteDTO.setFoto(pedido.getRestaurantes().getFoto());
+        restauranteDTO.setPlateFilter(pedido.getRestaurantes().getPlateFilter());
+        pedidoDetalhado.setRestaurante(restauranteDTO);
 
-        PedidoDTO pedidoDetalhadoDTO = new PedidoDTO(
-                pedido.getId(),
-                total,
-                pedido.getQuantidade(),
-                "Em preparação",
-                prato,
-                cliente
-        );
+        BigDecimal precoUnitario = pedido.getPlates().getPreco();
+        int quantidade = pedido.getQuantidade();
+        BigDecimal total = precoUnitario.multiply(BigDecimal.valueOf(quantidade));
+        pedidoDetalhado.setTotal(total);
 
-        return pedidoDetalhadoDTO;
+        return pedidoDetalhado;
     }
-
-
 }
 
 

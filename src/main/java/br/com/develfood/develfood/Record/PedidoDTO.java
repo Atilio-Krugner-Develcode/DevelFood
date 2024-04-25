@@ -1,7 +1,6 @@
 package br.com.develfood.develfood.Record;
 
-import br.com.develfood.develfood.Class.Cliente;
-import br.com.develfood.develfood.Class.Pedido;
+import br.com.develfood.develfood.Class.Pedido.Pedido;
 import br.com.develfood.develfood.Class.Plates;
 
 import java.math.BigDecimal;
@@ -13,7 +12,8 @@ public record PedidoDTO(
         int quantidade,
         String estatus,
         Plates plates,
-        Cliente cliente
+        String data,
+        String formaPagamento
 ) {
     public PedidoDTO(Pedido pedido) {
         this(
@@ -22,9 +22,11 @@ public record PedidoDTO(
                 pedido.getQuantidade(),
                 "Em preparação",
                 pedido.getPlates(),
-                pedido.getCliente()
+                pedido.getData().toString(),
+                pedido.getFormaPagamento()
         );
     }
-
-
 }
+
+
+

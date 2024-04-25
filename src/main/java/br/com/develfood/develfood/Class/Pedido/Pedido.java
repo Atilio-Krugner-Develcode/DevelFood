@@ -1,10 +1,14 @@
-package br.com.develfood.develfood.Class;
+package br.com.develfood.develfood.Class.Pedido;
 
+import br.com.develfood.develfood.Class.Cliente;
+import br.com.develfood.develfood.Class.Plates;
+import br.com.develfood.develfood.Class.Restaurant;
 import br.com.develfood.develfood.Record.PedidoDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -31,12 +35,17 @@ public class Pedido {
     private BigDecimal total;
     private int quantidade;
     private String estatus;
+    private LocalDate data;
+    private String formaPagamento;
 
     public Pedido(PedidoDTO body) {
         this.total = body.total();
         this.quantidade = body.quantidade();
         this.estatus = body.estatus();
+        this.data = LocalDate.now();
+        this.formaPagamento = body.formaPagamento();
     }
+
 
     }
 

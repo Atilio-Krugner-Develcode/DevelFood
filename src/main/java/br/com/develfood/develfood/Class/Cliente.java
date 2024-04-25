@@ -1,5 +1,6 @@
 package br.com.develfood.develfood.Class;
 
+import br.com.develfood.develfood.Class.Pedido.Pedido;
 import br.com.develfood.develfood.Record.ClientDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
