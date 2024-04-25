@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/pedidos")
 public class PedidoController {
@@ -25,9 +27,9 @@ public class PedidoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(pedidoCriadoDTO);
     }
 
-    @GetMapping("/list/{id}")
-    public ResponseEntity<PedidoDetalhado> obterPedido(@PathVariable Long id) {
-        PedidoDetalhado PedidoDetalhado = pedidoService.obterPedidoDetalhadoPorId(id);
-        return ResponseEntity.ok(PedidoDetalhado);
+    @GetMapping("/list")
+    public ResponseEntity<List<PedidoDetalhado>> obterTodosPedidos() {
+        List<PedidoDetalhado> pedidosDetalhados = pedidoService.obterTodosPedidosDetalhados();
+        return ResponseEntity.ok(pedidosDetalhados);
     }
 }

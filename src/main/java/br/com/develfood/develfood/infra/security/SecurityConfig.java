@@ -64,7 +64,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/restaurant/plate/list").permitAll()
                         .requestMatchers(HttpMethod.GET,"/client/all").permitAll()
                         .requestMatchers(HttpMethod.GET,"/address/list").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/pedidos/list/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/pedidos/list").permitAll()
 
 
 
