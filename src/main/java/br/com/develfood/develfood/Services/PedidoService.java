@@ -41,7 +41,7 @@ public class PedidoService {
     @Autowired
     private PlateRepository plateRepository;
 
-    public Pedido criarPedido(CriarPedidoDTO pedidoDTO) {
+    public void criarPedido(CriarPedidoDTO pedidoDTO) {
         Cliente cliente = clientRepository.findById(pedidoDTO.getIdCliente())
                 .orElseThrow(() -> new NoSuchElementException("Cliente não encontrado com o ID: " + pedidoDTO.getIdCliente()));
 
@@ -65,7 +65,9 @@ public class PedidoService {
         BigDecimal total = precoUnitario.multiply(BigDecimal.valueOf(quantidade));
         pedido.setTotal(total);
 
-        return pedidoRepository.save(pedido);
+        pedidoRepository.save(pedido);
+
+
     }
 
     public List<PedidoDetalhado> obterTodosPedidosDetalhados() {
