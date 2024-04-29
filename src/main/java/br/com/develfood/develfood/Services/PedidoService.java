@@ -87,7 +87,7 @@ public class PedidoService {
             pratoDTO.setFoto(pedido.getPlates().getFoto());
             pratoDTO.setPreco(pedido.getPlates().getPreco());
             pratoDTO.setCategoria(pedido.getPlates().getCategoria());
-            pratoDTO.setPlateFilter(pedido.getRestaurantes().getPlateFilter());
+
             pedidoDetalhado.setPrato(pratoDTO);
 
             Restaurant restauranteDTO = new Restaurant();

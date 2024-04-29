@@ -3,6 +3,7 @@ package br.com.develfood.develfood.Class;
 import br.com.develfood.develfood.Class.Pedido.Pedido;
 import br.com.develfood.develfood.Record.PlateDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "pratos")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @EqualsAndHashCode(of = "id")
 public class Plates {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
