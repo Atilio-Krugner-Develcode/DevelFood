@@ -42,6 +42,10 @@ public class Restaurant {
     @JsonIgnore
     private List<Pedido>pedido;
 
+    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Avaliacao> avaliacoes;
+
 
 
     public static Restaurant findById(Long id) {

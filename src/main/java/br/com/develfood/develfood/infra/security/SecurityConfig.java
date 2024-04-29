@@ -37,6 +37,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/address/create").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/logout").permitAll()
                         .requestMatchers(HttpMethod.POST,"/pedidos/create").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/avaliacao/{id}/avaliar").permitAll()
+
 
 
 
@@ -49,6 +51,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT,"/client/{id}").hasRole("USER")
                         .requestMatchers(HttpMethod.PUT,"/address/{id}").permitAll()
                         .requestMatchers(HttpMethod.PUT,"/pedidos/{id}").permitAll()
+                        .requestMatchers(HttpMethod.PUT,"/avaliacao/{avaliacaoId}").permitAll()
+
 
 
 
@@ -58,6 +62,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE,"/restaurant/plate/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/address/customer/*/address/*").hasRole("USER")
                         .requestMatchers(HttpMethod.DELETE, "/pedidos/{id}").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/avaliacao/{avaliacaoId}").permitAll()
+
 
 
 
@@ -69,6 +75,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/client/all").permitAll()
                         .requestMatchers(HttpMethod.GET,"/address/list").permitAll()
                         .requestMatchers(HttpMethod.GET,"/pedidos/list").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/avaliacao/restaurant/{id}").permitAll()
+
 
 
 
