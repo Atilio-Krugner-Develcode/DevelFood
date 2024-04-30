@@ -1,8 +1,8 @@
 package br.com.develfood.develfood.Class;
 
 public enum Estatus {
-    APROVADO,
-    ANDAMENTO,
-    CONCLUIDO,
-    ENTREGUE
+    PEDIDO_REALIZADO,
+    PEDIDO_EM_REALIZACAO,
+    PEDIDO_PRONTO,
+    PEDIDO_FINALIZADO
 }

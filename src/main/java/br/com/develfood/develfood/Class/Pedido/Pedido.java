@@ -1,6 +1,7 @@
 package br.com.develfood.develfood.Class.Pedido;
 
 import br.com.develfood.develfood.Class.Cliente;
+import br.com.develfood.develfood.Class.Estatus;
 import br.com.develfood.develfood.Class.Plates;
 import br.com.develfood.develfood.Class.Restaurant;
 import br.com.develfood.develfood.Record.PedidoDTO;
@@ -28,6 +29,9 @@ public class Pedido {
     @ManyToOne
     @JoinColumn(name = "pedidore")
     private Restaurant restaurantes;
+
+//    @Enumerated(EnumType.STRING)
+//    private Estatus status;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

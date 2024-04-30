@@ -9,6 +9,7 @@ CREATE TABLE cliente (
  pratosFavoritos VARCHAR(255),
  cards INTEGER,
  foto VARCHAR(255),
+ email VARCHAR(255),
  FOREIGN KEY (clienteId) REFERENCES users(id)
 
 );

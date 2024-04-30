@@ -15,6 +15,7 @@ import br.com.develfood.develfood.Repository.PlateRepository;
 import br.com.develfood.develfood.Repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +41,9 @@ public class PedidoService {
 
     @Autowired
     private PlateRepository plateRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     public Pedido criarPedido(CriarPedidoDTO pedidoDTO) {
         Cliente cliente = clientRepository.findById(pedidoDTO.getIdCliente())
@@ -125,13 +129,45 @@ public class PedidoService {
             return ResponseEntity.badRequest().build();
         }
     }
-    
+
     public void deletePedido(Long id) {
         pedidoRepository.deleteById(Long.valueOf(String.valueOf(id)));
     }
 
 
+    public void atualizarStatusPedido(Long pedidoId, Estatus novoStatus) {
+        Pedido pedido = pedidoRepository.findById(pedidoId)
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+
+        pedido.setEstatus(String.valueOf(novoStatus));
+        pedidoRepository.save(pedido);
+
+        enviarEmailClientePedidoAtualizado(pedido);
+    }
+
+    private void enviarEmailClientePedidoAtualizado(Pedido pedido) {
+        String clienteEmail = pedido.getCliente().getEmail();
+
+        if (clienteEmail == null || clienteEmail.isEmpty()) {
+            throw new IllegalArgumentException("O e-mail do cliente não está disponível.");
+        }
+
+        Email email = new Email();
+        email.setEmailTo(clienteEmail);
+        email.setTitle("Atualização do Status do Pedido");
+        email.setTexto("Olá,\n\nO status do seu pedido foi atualizado para: " + pedido.getEstatus() + "\n\nAtenciosamente,\nDevelFood");
+
+        try {
+            emailService.enviarEmail(email);
+            System.out.println("E-mail enviado com sucesso para: " + clienteEmail);
+        } catch (MailException e) {
+            System.err.println("Erro ao enviar e-mail para " + clienteEmail + ": " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }
+
+
 
 
 

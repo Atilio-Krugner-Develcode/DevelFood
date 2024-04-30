@@ -1,5 +1,7 @@
 package br.com.develfood.develfood.Controller;
 
+import br.com.develfood.develfood.Class.Estatus;
+import br.com.develfood.develfood.Class.NovoStatusRequest;
 import br.com.develfood.develfood.Class.Pedido.CriarPedidoDTO;
 import br.com.develfood.develfood.Class.Pedido.Pedido;
 import br.com.develfood.develfood.Class.Pedido.PedidoDetalhado;
@@ -20,7 +22,11 @@ public class PedidoController {
 
 
     @Autowired
-    private PedidoService pedidoService;
+    private final PedidoService pedidoService;
+
+    public PedidoController(PedidoService pedidoService) {
+        this.pedidoService = pedidoService;
+    }
 
     @PostMapping("/create")
     public ResponseEntity<PedidoDTO> criarPedido(@RequestBody CriarPedidoDTO pedidoDTO) {
@@ -34,6 +40,7 @@ public class PedidoController {
         List<PedidoDetalhado> pedidosDetalhados = pedidoService.obterTodosPedidosDetalhados();
         return ResponseEntity.ok(pedidosDetalhados);
     }
+
     @PutMapping("/{id}")
     public ResponseEntity updatePedido(@PathVariable Long id, @RequestBody @Validated PedidoDTO data) {
         return pedidoService.updatePedido(id, data);
@@ -43,5 +50,12 @@ public class PedidoController {
     public ResponseEntity<Void> deletePedido(@PathVariable Long id) {
         pedidoService.deletePedido(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{pedidoId}/status")
+    public ResponseEntity<Void> atualizarStatusPedido(@PathVariable Long pedidoId, @RequestBody NovoStatusRequest request) {
+        Estatus novoStatus = Estatus.valueOf(request.getNovoStatus());
+        pedidoService.atualizarStatusPedido(pedidoId, novoStatus);
+        return ResponseEntity.ok().build();
     }
 }

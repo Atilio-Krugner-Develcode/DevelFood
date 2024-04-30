@@ -18,11 +18,17 @@ public class EmailController {
     @Autowired
     EmailService emailService;
 
-    @PostMapping("/seding-email")
-    public ResponseEntity<Email>sendingEmail(@RequestBody @Validated EmailDTO emailDTO){
+    @PostMapping("/sending-email")
+    public ResponseEntity<String> sendingEmail(@RequestBody @Validated EmailDTO emailDTO) {
         Email email = new Email();
         BeanUtils.copyProperties(emailDTO, email);
-        emailService.status(email);
-        return new ResponseEntity<>(email, HttpStatus.CREATED);
+
+        try {
+            emailService.enviarEmail(email);
+            return ResponseEntity.ok("E-mail enviado com sucesso para " + email.getEmailTo());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao enviar e-mail: " + e.getMessage());
+        }
     }
 }

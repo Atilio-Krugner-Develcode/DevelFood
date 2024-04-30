@@ -21,11 +21,13 @@ public class Cliente {
     @Id
 
     private Long id;
+    private String email;
     private String nome;
     private String sobrenome;
     private String cpf;
     private int telefone;
     private String foto;
+
 
 
     @OneToMany(mappedBy = "cliente")
@@ -38,10 +40,14 @@ public class Cliente {
 
 
     public Cliente(ClientDTO data) {
+        this.email = data.email();
         this.nome = data.nome();
         this.sobrenome = data.sobrenome();
         this.cpf = data.cpf();
         this.telefone = data.telefone();
         this.foto = data.foto();
+
     }
+
+
 }

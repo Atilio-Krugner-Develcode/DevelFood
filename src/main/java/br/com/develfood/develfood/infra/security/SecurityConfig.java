@@ -52,6 +52,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT,"/address/{id}").permitAll()
                         .requestMatchers(HttpMethod.PUT,"/pedidos/{id}").permitAll()
                         .requestMatchers(HttpMethod.PUT,"/avaliacao/{avaliacaoId}").permitAll()
+                        .requestMatchers(HttpMethod.PUT,"/pedidos/{pedidoId}/status").permitAll()
+
 
 
 

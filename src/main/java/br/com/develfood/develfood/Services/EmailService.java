@@ -27,11 +27,10 @@ public class EmailService {
         email.setTitle("Agradecemos seu registro");
         email.setTexto("Olá, \n\nObrigado por se registrar em nosso sistema. Esperamos que tenha uma ótima experiência!\n\nAtenciosamente, \nDevelFood");
 
-        status(email);
+        enviarEmail(email);
     }
 
-
-    public Email status(Email email) {
+    public void enviarEmail(Email email) {
         email.setTempo(LocalDateTime.now());
         try {
             SimpleMailMessage message = new SimpleMailMessage();
@@ -45,8 +44,9 @@ public class EmailService {
             email.setStatus(StatusEmail.SENT);
         } catch (MailException e) {
             email.setStatus(StatusEmail.ERROR);
+            e.printStackTrace();
         } finally {
-            return emailRepository.save(email);
+            emailRepository.save(email);
         }
     }
 }

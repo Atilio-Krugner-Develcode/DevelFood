@@ -6,6 +6,7 @@ public record ClientDTO(
 
         Long id,
 
+        String email,
         String nome,
         String sobrenome,
         String cpf,
