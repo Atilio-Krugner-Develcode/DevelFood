@@ -45,7 +45,7 @@ public class PedidoService {
     @Autowired
     private EmailService emailService;
 
-    public Pedido criarPedido(CriarPedidoDTO pedidoDTO) {
+    public void criarPedido(CriarPedidoDTO pedidoDTO) {
         Cliente cliente = clientRepository.findById(pedidoDTO.getIdCliente())
                 .orElseThrow(() -> new NoSuchElementException("Cliente não encontrado com o ID: " + pedidoDTO.getIdCliente()));
 
@@ -69,7 +69,9 @@ public class PedidoService {
         BigDecimal total = precoUnitario.multiply(BigDecimal.valueOf(quantidade));
         pedido.setTotal(total);
 
-        return pedidoRepository.save(pedido);
+        pedidoRepository.save(pedido);
+
+
     }
 
     public List<PedidoDetalhado> obterTodosPedidosDetalhados() {
@@ -91,7 +93,7 @@ public class PedidoService {
             pratoDTO.setFoto(pedido.getPlates().getFoto());
             pratoDTO.setPreco(pedido.getPlates().getPreco());
             pratoDTO.setCategoria(pedido.getPlates().getCategoria());
-
+            pratoDTO.setPlateFilter(pedido.getRestaurantes().getPlateFilter());
             pedidoDetalhado.setPrato(pratoDTO);
 
             Restaurant restauranteDTO = new Restaurant();

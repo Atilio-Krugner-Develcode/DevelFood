@@ -29,10 +29,9 @@ public class PedidoController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<PedidoDTO> criarPedido(@RequestBody CriarPedidoDTO pedidoDTO) {
-        Pedido pedido = pedidoService.criarPedido(pedidoDTO);
-        PedidoDTO pedidoCriadoDTO = new PedidoDTO(pedido);
-        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoCriadoDTO);
+    public ResponseEntity<String> criarPedido(@RequestBody CriarPedidoDTO pedidoDTO) {
+        pedidoService.criarPedido(pedidoDTO);
+        return ResponseEntity.status(HttpStatus.OK).body("Pedido criado com sucesso!");
     }
 
     @GetMapping("/list")
@@ -40,7 +39,6 @@ public class PedidoController {
         List<PedidoDetalhado> pedidosDetalhados = pedidoService.obterTodosPedidosDetalhados();
         return ResponseEntity.ok(pedidosDetalhados);
     }
-
     @PutMapping("/{id}")
     public ResponseEntity updatePedido(@PathVariable Long id, @RequestBody @Validated PedidoDTO data) {
         return pedidoService.updatePedido(id, data);
@@ -51,6 +49,7 @@ public class PedidoController {
         pedidoService.deletePedido(id);
         return ResponseEntity.noContent().build();
     }
+
 
     @PutMapping("/{pedidoId}/status")
     public ResponseEntity<Void> atualizarStatusPedido(@PathVariable Long pedidoId, @RequestBody NovoStatusRequest request) {
