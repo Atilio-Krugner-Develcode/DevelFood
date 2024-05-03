@@ -23,7 +23,7 @@ public class Restaurant {
 
     private Long id;
     private String nome;
-    private String cpf;
+    private String cnpj;
     private int telefone;
     private String foto;
 
@@ -58,15 +58,15 @@ public class Restaurant {
         if (restaurant.nome() != null) {
             this.nome = restaurant.nome();
         }
-        if (restaurant.cpf() != null) {
-            this.cpf = restaurant.cpf();
+        if (restaurant.cnpj() != null) {
+            this.cnpj = restaurant.cnpj();
         }
 
     }
 
     public Restaurant(RequestRestaurant requestRestaurant){
         this.nome = requestRestaurant.nome();
-        this.cpf = requestRestaurant.cpf();
+        this.cnpj = requestRestaurant.cnpj();
         this.telefone = requestRestaurant.telefone();
         this.foto = requestRestaurant.foto();
         this.plateFilter = requestRestaurant.plateFilter();

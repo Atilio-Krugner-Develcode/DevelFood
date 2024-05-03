@@ -8,7 +8,7 @@ public record RestauranteComPratosDTO(
 
         Long id,
         String nome,
-        String cpf,
+        String cnpj,
         int telefone,
         String foto,
 

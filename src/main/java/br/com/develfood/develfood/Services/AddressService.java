@@ -9,11 +9,9 @@ import br.com.develfood.develfood.Record.RestaurantAndAddress;
 import br.com.develfood.develfood.Repository.AddressRepository;
 import br.com.develfood.develfood.Repository.ClientRepository;
 import br.com.develfood.develfood.Repository.RestaurantRepository;
-import jakarta.mail.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +44,7 @@ public class AddressService {
                     .map(AddressDTO::new)
                     .collect(Collectors.toList());
 
-            resultList.add(new RestaurantAndAddress(restaurant.getId(), restaurant.getNome(), restaurant.getCpf(), restaurant.getTelefone(), restaurant.getFoto(),
+            resultList.add(new RestaurantAndAddress(restaurant.getId(), restaurant.getNome(), restaurant.getCnpj(), restaurant.getTelefone(), restaurant.getFoto(),
                     addressDTO));
         });
 

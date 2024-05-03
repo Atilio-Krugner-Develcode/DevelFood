@@ -9,7 +9,7 @@ import java.util.List;
 public record RestauranteComAvaliacoes(
         Long id,
         String nome,
-        String cpf,
+        String cnpj,
         int telefone,
         String foto,
         PlateFilter plateFilter,

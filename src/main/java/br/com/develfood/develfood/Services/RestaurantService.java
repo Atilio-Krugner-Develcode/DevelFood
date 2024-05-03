@@ -1,6 +1,5 @@
 package br.com.develfood.develfood.Services;
 
-import br.com.develfood.develfood.Class.Pedido.Pedido;
 import br.com.develfood.develfood.Class.PlateFilter;
 import br.com.develfood.develfood.Class.Restaurant;
 import br.com.develfood.develfood.Record.RequestRestaurant;
@@ -53,7 +52,7 @@ public class RestaurantService {
             if (optionalRestaurant.isPresent()) {
                 Restaurant restaurant = optionalRestaurant.get();
                 restaurant.setNome(data.nome());
-                restaurant.setCpf(data.cpf());
+                restaurant.setCnpj(data.cnpj());
                 restaurant.setTelefone(data.telefone());
                 restaurant.setFoto(data.foto());
                 return ResponseEntity.ok().build();

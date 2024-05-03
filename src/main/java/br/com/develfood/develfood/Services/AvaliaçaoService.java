@@ -34,7 +34,7 @@ public class AvaliaçaoService {
         return new RestauranteComAvaliacoes(
                 restaurante.getId(),
                 restaurante.getNome(),
-                restaurante.getCpf(),
+                restaurante.getCnpj(),
                 restaurante.getTelefone(),
                 restaurante.getFoto(),
                 restaurante.getPlateFilter(),

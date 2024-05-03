@@ -1,7 +1,7 @@
 CREATE TABLE restaurant(
  id SERIAL PRIMARY KEY,
  nome VARCHAR(100) NOT NULL,
- cpf CHAR(11),
+ cnpj CHAR(11),
  telefone NUMERIC,
  restauranteId INTEGER,
  foto VARCHAR(255),

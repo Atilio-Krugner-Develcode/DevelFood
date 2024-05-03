@@ -35,7 +35,7 @@ public class PlateService {
             List<PlateDTO> pratosDTO = pratos.stream()
                     .map(PlateDTO::new)
                     .collect(Collectors.toList());
-            return new RestauranteComPratosDTO(restaurante.getId(), restaurante.getNome(), restaurante.getCpf(), restaurante.getTelefone(), restaurante.getFoto(),
+            return new RestauranteComPratosDTO(restaurante.getId(), restaurante.getNome(), restaurante.getCnpj(), restaurante.getTelefone(), restaurante.getFoto(),
                     restaurante.getPlateFilter(), pratosDTO);
         });
 
