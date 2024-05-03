@@ -5,9 +5,6 @@ import br.com.develfood.develfood.Class.Pedido.CriarPedidoDTO;
 import br.com.develfood.develfood.Class.Pedido.Pedido;
 import br.com.develfood.develfood.Class.Pedido.PedidoDetalhado;
 import br.com.develfood.develfood.Record.PedidoDTO;
-import br.com.develfood.develfood.Record.PlateDTO;
-import br.com.develfood.develfood.Record.PlatesDTO;
-import br.com.develfood.develfood.Record.RequestRestaurant;
 import br.com.develfood.develfood.Repository.ClientRepository;
 import br.com.develfood.develfood.Repository.PedidoRepository;
 
@@ -60,7 +57,7 @@ public class PedidoService {
         pedido.setRestaurantes(restaurante);
         pedido.setPlates(prato);
         pedido.setQuantidade(pedidoDTO.getQuantidade());
-        pedido.setEstatus(pedido.getEstatus());
+        pedido.setStatus("PEDIDO_REALIZADO");
         pedido.setData(LocalDate.now());
         pedido.setFormaPagamento(pedidoDTO.getFormaPagamento());
 
@@ -80,9 +77,10 @@ public class PedidoService {
         for (Pedido pedido : pedidos) {
             PedidoDetalhado pedidoDetalhado = new PedidoDetalhado();
             pedidoDetalhado.setId(pedido.getId());
+            pedidoDetalhado.setStatus("PEDIDO_REALIZADO");
             pedidoDetalhado.setTotal(pedido.getTotal());
             pedidoDetalhado.setQuantidade(pedido.getQuantidade());
-            pedidoDetalhado.setEstatus("Em preparação");
+            pedidoDetalhado.setStatus(pedido.getStatus());
             pedidoDetalhado.setData(pedido.getData());
             pedidoDetalhado.setFormaPagamento(pedido.getFormaPagamento());
 
@@ -141,7 +139,7 @@ public class PedidoService {
         Pedido pedido = pedidoRepository.findById(pedidoId)
                 .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
 
-        pedido.setEstatus(String.valueOf(novoStatus));
+        pedido.setStatus(String.valueOf(novoStatus));
         pedidoRepository.save(pedido);
 
         enviarEmailClientePedidoAtualizado(pedido);
@@ -157,7 +155,7 @@ public class PedidoService {
         Email email = new Email();
         email.setEmailTo(clienteEmail);
         email.setTitle("Atualização do Status do Pedido");
-        email.setTexto("Olá,\n\nO status do seu pedido foi atualizado para: " + pedido.getEstatus() + "\n\nAtenciosamente,\nDevelFood");
+        email.setTexto("Olá,\n\nO status do seu pedido foi atualizado para: " + pedido.getStatus() + "\n\nAtenciosamente,\nDevelFood");
 
         try {
             emailService.enviarEmail(email);

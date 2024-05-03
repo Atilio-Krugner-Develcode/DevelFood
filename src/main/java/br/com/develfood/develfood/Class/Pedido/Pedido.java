@@ -1,7 +1,6 @@
 package br.com.develfood.develfood.Class.Pedido;
 
 import br.com.develfood.develfood.Class.Cliente;
-import br.com.develfood.develfood.Class.Estatus;
 import br.com.develfood.develfood.Class.Plates;
 import br.com.develfood.develfood.Class.Restaurant;
 import br.com.develfood.develfood.Record.PedidoDTO;
@@ -38,14 +37,14 @@ public class Pedido {
     private Long id;
     private BigDecimal total;
     private int quantidade;
-    private String estatus;
+    private String status;
     private LocalDate data;
     private String formaPagamento;
 
     public Pedido(PedidoDTO body) {
         this.total = body.total();
         this.quantidade = body.quantidade();
-        this.estatus = body.estatus();
+        this.status = body.status();
         this.data = LocalDate.now();
         this.formaPagamento = body.formaPagamento();
     }

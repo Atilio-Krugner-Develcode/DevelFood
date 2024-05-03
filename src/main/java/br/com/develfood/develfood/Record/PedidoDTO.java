@@ -10,7 +10,7 @@ public record PedidoDTO(
         Long id,
         BigDecimal total,
         int quantidade,
-        String estatus,
+        String status,
         Plates plates,
         String data,
         String formaPagamento
@@ -20,7 +20,7 @@ public record PedidoDTO(
                 pedido.getId(),
                 pedido.getTotal(),
                 pedido.getQuantidade(),
-                "Em preparação",
+                "PEDIDO_REALIZADO",
                 pedido.getPlates(),
                 pedido.getData().toString(),
                 pedido.getFormaPagamento()

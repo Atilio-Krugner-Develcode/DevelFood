@@ -5,7 +5,7 @@ CREATE TABLE pedido (
     estadoServico BOOLEAN,
     pedidore INTEGER,
     pedidoscl INTEGER,
-    estatus VARCHAR(255),
+    status VARCHAR(255),
     pratos INTEGER,
     data TIMESTAMP,
     forma_pagamento VARCHAR(255),
