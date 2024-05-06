@@ -39,6 +39,12 @@ public class Cliente {
     private List<Pedido>pedido;
 
 
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<PratosFavoritos> pratosFavoritos;
+
+
+
     public Cliente(ClientDTO data) {
         this.email = data.email();
         this.nome = data.nome();

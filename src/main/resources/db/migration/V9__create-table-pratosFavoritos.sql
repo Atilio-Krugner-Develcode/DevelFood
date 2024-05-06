@@ -1,7 +1,7 @@
-CREATE TABLE pratosFavoritos(
- id SERIAL PRIMARY KEY NOT NULL,
- pratosFavoritosId INTEGER,
- FOREIGN KEY (pratosFavoritosId) REFERENCES cliente(id),
- FOREIGN KEY (pratosFavoritosId) REFERENCES pratos(id)
-
+CREATE TABLE favorito (
+    id SERIAL PRIMARY KEY,
+    cliente_id INTEGER,
+    prato_id INTEGER,
+    FOREIGN KEY (cliente_id) REFERENCES cliente(id),
+    FOREIGN KEY (prato_id) REFERENCES pratos(id)
 );

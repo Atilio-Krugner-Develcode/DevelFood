@@ -6,7 +6,7 @@ CREATE TABLE cliente (
  telefone NUMERIC ,
  clienteId INTEGER,
  pedidoId INTEGER,
- pratosFavoritos VARCHAR(255),
+ pratos_favoritos VARCHAR(255),
  cards INTEGER,
  foto VARCHAR(255),
  email VARCHAR(255),
