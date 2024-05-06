@@ -6,6 +6,7 @@ CREATE TABLE endereco(
  cidade VARCHAR(255) NOT NULL,
  bairro VARCHAR(255) NOT NULL,
  cep VARCHAR(255),
+ state VARCHAR(255),
  enderecoId INTEGER,
  restaurant_id INTEGER,
  cliente_id INTEGER,

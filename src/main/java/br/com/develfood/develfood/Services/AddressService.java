@@ -104,6 +104,7 @@ public class AddressService {
                 endereco.setBairro(data.bairro());
                 endereco.setCidade(data.cidade());
                 endereco.setCep(data.cep());
+                endereco.setState(data.state());
 
                 return ResponseEntity.ok().build();
             } else {

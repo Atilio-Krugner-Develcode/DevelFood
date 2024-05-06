@@ -9,9 +9,10 @@ public record AddressDTO(
         int numero,
         String cidade,
         String bairro,
-        String cep
+        String cep,
+        String state
 ) {
     public AddressDTO(Endereco endereco){
-        this(endereco.getId(), endereco.getRua(), endereco.getNumero(), endereco.getCidade(), endereco.getBairro(), endereco.getCep());
+        this(endereco.getId(), endereco.getRua(), endereco.getNumero(), endereco.getCidade(), endereco.getBairro(), endereco.getCep(), endereco.getState());
     }
 }

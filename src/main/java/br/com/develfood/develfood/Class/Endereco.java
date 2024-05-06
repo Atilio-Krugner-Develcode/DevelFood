@@ -20,6 +20,7 @@ public class Endereco {
     private String cidade;
     private String bairro;
     private String cep;
+    private String state;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
@@ -35,5 +36,6 @@ public class Endereco {
         this.cidade = body.cidade();
         this.bairro = body.bairro();
         this.cep = body.cep();
+        this.state = body.state();
     }
 }
