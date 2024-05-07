@@ -89,7 +89,7 @@ public class AutentificacaoController {
 
     @PostMapping("/esqueci-senha")
     public ResponseEntity esqueciSenha(@RequestBody @Valid EsqueciSenhaDTO data) {
-        User user = (User) repository.findByLogin(data.getLogin());
+        User user = (User) repository.findByLogin(data.getEmail());
 
         if (user == null) {
             return ResponseEntity.badRequest().body("Usuário não encontrado.");
