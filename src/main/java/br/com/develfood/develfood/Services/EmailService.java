@@ -1,8 +1,10 @@
 package br.com.develfood.develfood.Services;
 
 import br.com.develfood.develfood.Class.Email;
+import br.com.develfood.develfood.Class.User;
 import br.com.develfood.develfood.Enum.StatusEmail;
 import br.com.develfood.develfood.Repository.EmailRepository;
+import br.com.develfood.develfood.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -10,7 +12,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Random;
 
 @Service
 public class EmailService {
@@ -20,6 +21,8 @@ public class EmailService {
 
     @Autowired
     private JavaMailSender emailSender;
+    @Autowired
+    private UserRepository userRepository;
 
     public void sendRegistrationEmail(String userEmail) {
         Email email = new Email();
@@ -52,17 +55,27 @@ public class EmailService {
     }
 
     public void sendPasswordRecoveryEmail(String userEmail, String recoveryToken) {
-        int recoveryCode = new Random().nextInt(9000) + 1000;
-
         try {
+            User user = userRepository.findByUserEmail(userEmail);
+            if (user == null) {
+                System.err.println("Usuário não encontrado com o e-mail fornecido: " + userEmail);
+                return;
+            }
+
+            recoveryToken = user.getRecoveryToken();
+
+            if (recoveryToken == null || recoveryToken.isEmpty()) {
+                System.err.println("Token de recuperação inválido para o usuário: " + userEmail);
+                return;
+            }
+
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom("seu_email@gmail.com");
             message.setTo(userEmail);
             message.setSubject("Recuperação de Senha");
-            message.setText("Olá,\n\nPara redefinir sua senha, utilize o seguinte código de recuperação: " + recoveryCode + "\n\nAtenciosamente,\nDevelFood");
+            message.setText("Olá,\n\nPara redefinir sua senha, utilize o seguinte token de recuperação: " + recoveryToken + "\n\nAtenciosamente,\nDevelFood");
 
             emailSender.send(message);
-
 
         } catch (MailException e) {
             System.err.println("Erro ao enviar e-mail de recuperação de senha: " + e.getMessage());
