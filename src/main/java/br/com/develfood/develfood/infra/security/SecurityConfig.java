@@ -39,8 +39,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/pedidos/create").permitAll()
                         .requestMatchers(HttpMethod.POST,"/avaliacao/{id}/avaliar").permitAll()
                         .requestMatchers(HttpMethod.POST,"/favoritos/pratos").permitAll()
-
-
+                        .requestMatchers(HttpMethod.POST,"/auth/redefinir-senha").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/auth/esqueci-senha").permitAll()
 
 
 

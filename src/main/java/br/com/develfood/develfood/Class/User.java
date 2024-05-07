@@ -28,6 +28,12 @@ public class User implements UserDetails {
         private UserRole role;
         private String userEmail;
 
+    @Column(name = "recovery_token_timestamp")
+    private Long recoveryTokenTimestamp;
+
+    @Column(name = "recovery_token")
+    private String recoveryToken;
+
 
 
         public User(String login, String password, String userEmail, UserRole role){
@@ -75,4 +81,6 @@ public class User implements UserDetails {
     public String getEmail() {
         return this.userEmail;
     }
+
+
 }

@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Random;
 
 @Service
 public class EmailService {
@@ -47,6 +48,23 @@ public class EmailService {
             e.printStackTrace();
         } finally {
             emailRepository.save(email);
+        }
+    }
+
+    public void sendPasswordRecoveryEmail(String userEmail, String recoveryToken) {
+        int recoveryCode = new Random().nextInt(9000) + 1000;
+
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom("seu_email@gmail.com");
+            message.setTo(userEmail);
+            message.setSubject("Recuperação de Senha");
+            message.setText("Olá,\n\nPara redefinir sua senha, utilize o seguinte código de recuperação: " + recoveryCode + "\n\nAtenciosamente,\nDevelFood");
+
+            // Enviar o email
+            emailSender.send(message);
+        } catch (MailException e) {
+            e.printStackTrace();
         }
     }
 }
