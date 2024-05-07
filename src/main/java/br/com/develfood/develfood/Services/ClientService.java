@@ -21,8 +21,16 @@ public class ClientService {
     }
 
     public ResponseEntity<?> createClient(ClientDTO data) {
-        Cliente newCliente = new Cliente(data);
+        Cliente newCliente = new Cliente();
+        newCliente.setEmail(data.email());
+        newCliente.setNome(data.nome());
+        newCliente.setSobrenome(data.sobrenome());
+        newCliente.setCpf(data.cpf());
+        newCliente.setTelefone(data.telefone());
+        newCliente.setFoto(data.foto());
+
         clientRepository.save(newCliente);
+
         return ResponseEntity.ok().build();
     }
 

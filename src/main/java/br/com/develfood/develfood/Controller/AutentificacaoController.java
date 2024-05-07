@@ -34,10 +34,11 @@ public class AutentificacaoController {
     @Autowired
     private PasswordRecoveryService passwordRecoveryService;
 
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Validated AuthenticationDTO data) {
-        var usernamepassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
-        var auth = this.authenticationManager.authenticate(usernamepassword);
+        var usernamePassword = new UsernamePasswordAuthenticationToken(data.userEmail(), data.password());
+        var auth = this.authenticationManager.authenticate(usernamePassword);
 
         var token = tokenService.generateToken((User) auth.getPrincipal());
 
@@ -46,13 +47,13 @@ public class AutentificacaoController {
 
     @PostMapping("/registrar")
     public ResponseEntity registrar(@RequestBody @Validated RegisterDTO data) {
-        if (this.repository.findByLogin(data.login()) != null) {
+        if (this.repository.findByUserEmail(data.userEmail()) != null) {
             return ResponseEntity.badRequest().build();
         }
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.login(), encryptedPassword, data.userEmail(), data.role());
+        User newUser = new User(data.userEmail(), encryptedPassword, data.userEmail(), data.role());
         this.repository.save(newUser);
-        emailService.sendRegistrationEmail(newUser.getEmail());
+        emailService.sendRegistrationEmail(newUser.getUserEmail());
         return ResponseEntity.ok().build();
     }
 

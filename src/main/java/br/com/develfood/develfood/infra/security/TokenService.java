@@ -23,11 +23,8 @@ public class TokenService {
                     .withIssuer("auth-api")
                     .withSubject(user.getLogin())
                     .withClaim("id", user.getId())
-                    .withClaim("login", user.getLogin())
+                    .withClaim("userEmail", user.getLogin())
                     .withClaim("password",user.getPassword())
-                    .withClaim("roler", user.getRole().ordinal())
-                    .withClaim("user",user.getUsername())
-                    .withClaim("recovery_token",user.getUsername())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
             return token;

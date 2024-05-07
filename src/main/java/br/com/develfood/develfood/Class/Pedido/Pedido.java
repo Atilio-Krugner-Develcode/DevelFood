@@ -21,6 +21,7 @@ public class Pedido {
     @JoinColumn(name = "pedidoscl")
     private Cliente cliente;
 
+
     @ManyToOne
     @JoinColumn(name = "pratos")
     private Plates plates;
@@ -29,8 +30,7 @@ public class Pedido {
     @JoinColumn(name = "pedidore")
     private Restaurant restaurantes;
 
-//    @Enumerated(EnumType.STRING)
-//    private Estatus status;
+
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
