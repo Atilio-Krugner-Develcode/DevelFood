@@ -30,15 +30,15 @@ public class PasswordRecoveryService {
             return false;
         }
 
-        long tokenTimestamp = user.getRecoveryTokenTimestamp();
+        long tokenTimestamp = Long.parseLong(user.getRecoveryTokenTimestamp());
         long currentTime = System.currentTimeMillis();
 
         return (currentTime - tokenTimestamp) <= TOKEN_EXPIRATION_TIME_MS;
     }
 
-    public void associateTokenWithUser(String token, User user) {
-        user.setRecoveryToken(token);
-        user.setRecoveryTokenTimestamp(System.currentTimeMillis());
+    public void associateTokenWithUser(String recoveryToken, User user) {
+        user.setRecoveryToken(recoveryToken);
+        user.setRecoveryTokenTimestamp(String.valueOf(System.currentTimeMillis()));
         userRepository.save(user);
     }
 
@@ -56,7 +56,7 @@ public class PasswordRecoveryService {
         long currentTimestamp = System.currentTimeMillis();
 
         for (User user : users) {
-            Long tokenTimestamp = user.getRecoveryTokenTimestamp();
+            Long tokenTimestamp = Long.valueOf(user.getRecoveryTokenTimestamp());
             if (tokenTimestamp != null && (currentTimestamp - tokenTimestamp) > TOKEN_EXPIRATION_TIME_MS) {
                 user.setRecoveryToken(null);
                 user.setRecoveryTokenTimestamp(null);

@@ -95,12 +95,10 @@ public class AutentificacaoController {
         }
 
         String recoveryToken = UUID.randomUUID().toString();
-
+        passwordRecoveryService.associateTokenWithUser(recoveryToken, user);
 
         emailService.sendPasswordRecoveryEmail(user.getEmail(), recoveryToken);
 
         return ResponseEntity.ok("Email de recuperação de senha enviado com sucesso.");
     }
-
-
 }

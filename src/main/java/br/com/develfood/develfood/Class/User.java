@@ -20,20 +20,31 @@ import java.util.List;
 @EqualsAndHashCode(of = "id")
 public class User implements UserDetails {
 
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Id
-        private String id;
-        private String login;
-        private String password;
-        private UserRole role;
-        private String userEmail;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "login", unique = true, nullable = false)
+    private String login;
+
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @Column(name = "recovery_token_timestamp")
-    private Long recoveryTokenTimestamp;
+    private String recoveryTokenTimestamp;
 
     @Column(name = "recovery_token")
     private String recoveryToken;
 
+    @Column(name = "usuarioId")
+    private Integer usuarioId;
+
+    @Column(name = "user_email")
+    private String userEmail;
+
+    @Column(name = "role", nullable = false)
+    private UserRole role;
 
 
         public User(String login, String password, String userEmail, UserRole role){

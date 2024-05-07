@@ -61,9 +61,11 @@ public class EmailService {
             message.setSubject("Recuperação de Senha");
             message.setText("Olá,\n\nPara redefinir sua senha, utilize o seguinte código de recuperação: " + recoveryCode + "\n\nAtenciosamente,\nDevelFood");
 
-            // Enviar o email
             emailSender.send(message);
+
+
         } catch (MailException e) {
+            System.err.println("Erro ao enviar e-mail de recuperação de senha: " + e.getMessage());
             e.printStackTrace();
         }
     }

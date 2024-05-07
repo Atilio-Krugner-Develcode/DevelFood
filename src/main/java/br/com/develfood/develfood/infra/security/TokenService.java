@@ -27,6 +27,7 @@ public class TokenService {
                     .withClaim("password",user.getPassword())
                     .withClaim("roler", user.getRole().ordinal())
                     .withClaim("user",user.getUsername())
+                    .withClaim("recovery_token",user.getUsername())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
             return token;
