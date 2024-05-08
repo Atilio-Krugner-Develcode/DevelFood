@@ -42,12 +42,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/auth/redefinir-senha").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/esqueci-senha").permitAll()
 
-
-
-
-
-
-
                         .requestMatchers(HttpMethod.PUT,"/type/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT,"/restaurant/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT,"/restaurant/plate/{id}").hasRole("ADMIN")
@@ -57,11 +51,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT,"/avaliacao/{avaliacaoId}").permitAll()
                         .requestMatchers(HttpMethod.PUT,"/pedidos/{pedidoId}/status").permitAll()
 
-
-
-
-
-
                         .requestMatchers(HttpMethod.DELETE,"/restaurant/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE,"/type/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE,"/restaurant/plate/{id}").hasRole("ADMIN")
@@ -69,10 +58,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/pedidos/{id}").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/avaliacao/{avaliacaoId}").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/favoritos/{clienteId}/pratos/{pratoFavoritoId}").permitAll()
-
-
-
-
 
                         .requestMatchers(HttpMethod.GET,"/restaurant").permitAll()
                         .requestMatchers(HttpMethod.GET,"/type").permitAll()
@@ -83,11 +68,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/pedidos/list").permitAll()
                         .requestMatchers(HttpMethod.GET,"/avaliacao/restaurant/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET,"/favoritos/{clienteId}/list").permitAll()
-
-
-
-
-
 
                         .anyRequest().authenticated()
                 )
