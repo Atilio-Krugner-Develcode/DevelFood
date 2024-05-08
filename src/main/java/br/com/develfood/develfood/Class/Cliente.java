@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -21,11 +22,15 @@ public class Cliente {
     @Id
 
     private Long id;
+    @Column(unique = true)
     private String email;
     private String nome;
     private String sobrenome;
+    @Column(unique = true)
+    @Size(min = 11, max = 11)
     private String cpf;
-    private int telefone;
+    @Column(unique = true)
+    private String telefone;
     private String foto;
 
 
@@ -50,7 +55,7 @@ public class Cliente {
         this.nome = data.nome();
         this.sobrenome = data.sobrenome();
         this.cpf = data.cpf();
-        this.telefone = data.telefone();
+        this.telefone = String.valueOf(data.telefone());
         this.foto = data.foto();
 
     }

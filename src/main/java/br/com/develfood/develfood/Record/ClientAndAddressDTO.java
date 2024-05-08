@@ -9,7 +9,7 @@ public record ClientAndAddressDTO(
         String nome,
         String sobrenome,
         String cpf,
-        int telefone,
+        String telefone,
         String foto,
         List<AddressDTO> Endereco
 

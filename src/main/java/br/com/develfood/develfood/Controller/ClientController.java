@@ -4,6 +4,7 @@ import br.com.develfood.develfood.Class.Cliente;
 import br.com.develfood.develfood.Record.ClientDTO;
 import br.com.develfood.develfood.Services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +27,12 @@ public class ClientController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createClient(@RequestBody @Validated ClientDTO data) {
-        return clientService.createClient(data);
+    public ResponseEntity<?> createClient(@RequestBody ClientDTO data) {
+        try {
+            return clientService.createClient(data);
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")

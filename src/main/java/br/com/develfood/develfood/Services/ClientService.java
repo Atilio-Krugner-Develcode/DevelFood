@@ -4,6 +4,7 @@ import br.com.develfood.develfood.Class.Cliente;
 import br.com.develfood.develfood.Record.ClientDTO;
 import br.com.develfood.develfood.Repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,17 +22,33 @@ public class ClientService {
     }
 
     public ResponseEntity<?> createClient(ClientDTO data) {
-        Cliente newCliente = new Cliente();
-        newCliente.setEmail(data.email());
-        newCliente.setNome(data.nome());
-        newCliente.setSobrenome(data.sobrenome());
-        newCliente.setCpf(data.cpf());
-        newCliente.setTelefone(data.telefone());
-        newCliente.setFoto(data.foto());
+        try {
+            if (clientRepository.existsByEmail(data.email())) {
+                throw new DataIntegrityViolationException("Já existe um cliente com este email.");
+            }
 
-        clientRepository.save(newCliente);
+            if (clientRepository.existsByCpf(data.cpf())) {
+                throw new DataIntegrityViolationException("Já existe um cliente com este CPF.");
+            }
 
-        return ResponseEntity.ok().build();
+            if (clientRepository.existsByTelefone(String.valueOf(data.telefone()))) {
+                throw new DataIntegrityViolationException("Já existe um cliente com este telefone.");
+            }
+
+            Cliente newCliente = new Cliente();
+            newCliente.setEmail(data.email());
+            newCliente.setNome(data.nome());
+            newCliente.setSobrenome(data.sobrenome());
+            newCliente.setCpf(data.cpf());
+            newCliente.setTelefone(data.telefone());
+            newCliente.setFoto(data.foto());
+
+            clientRepository.save(newCliente);
+
+            return ResponseEntity.ok("Cliente criado com sucesso!");
+        } catch (DataIntegrityViolationException e) {
+            throw e;
+        }
     }
 
     @Transactional

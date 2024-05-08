@@ -3,7 +3,7 @@ CREATE TABLE cliente (
  nome VARCHAR(100),
  sobrenome VARCHAR(100),
  cpf CHAR(11),
- telefone NUMERIC ,
+ telefone VARCHAR(20),
  clienteId INTEGER,
  pedidoId INTEGER,
  pratos_favoritos VARCHAR(255),
