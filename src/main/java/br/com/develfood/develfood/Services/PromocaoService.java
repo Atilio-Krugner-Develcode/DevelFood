@@ -33,18 +33,18 @@ public class PromocaoService {
         RestaurantePromocao novaPromocao = new RestaurantePromocao();
         novaPromocao.setFoto(fotoUrl);
 
-        novaPromocao.setDataFinal(LocalDate.from(LocalDateTime.now().plusHours(8)));
+        novaPromocao.setDataInicial(LocalDateTime.now().toLocalDate());
+
+        novaPromocao.setDataFinal(LocalDateTime.now().plusHours(8).toLocalDate());
+
         novaPromocao.setAtiva(true);
 
-
         novaPromocao.setRestaurante(restaurante);
-
-        if (novaPromocao.getFoto() == null || novaPromocao.getDataFinal() == null) {
-            throw new IllegalArgumentException("A foto e a data final da promoção são obrigatórias.");
-        }
 
         return restaurantePromocaoRepository.save(novaPromocao);
     }
 }
+
+
 
 
