@@ -64,8 +64,9 @@ public class RestaurantService {
         }
     }
 
-    public void deleteRestaurant(Long id) {
-        restaurantRepository.deleteById(id);
+    public boolean deletRestuarant(Long restaurantId) {
+        restaurantRepository.deleteById(restaurantId);
+        return false;
     }
 }
 

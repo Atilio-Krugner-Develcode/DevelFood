@@ -48,6 +48,10 @@ public class Restaurant {
     @JsonIgnore
     private List<Avaliacao> avaliacoes;
 
+    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<RestaurantePromocao> promocoes;
+
 
 
     public static Restaurant findById(Long id) {

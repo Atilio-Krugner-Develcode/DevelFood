@@ -41,6 +41,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/favoritos/pratos").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/redefinir-senha").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/esqueci-senha").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/promotions/restaurants/{restaurantId}").permitAll()
+
 
                         .requestMatchers(HttpMethod.PUT,"/type/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT,"/restaurant/{id}").hasRole("ADMIN")
