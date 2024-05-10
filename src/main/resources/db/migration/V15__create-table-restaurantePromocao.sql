@@ -1,6 +1,5 @@
 CREATE TABLE promocao (
     id SERIAL PRIMARY KEY NOT NULL,
-    nome VARCHAR(55),
     foto VARCHAR(255),
     data_inicial DATE,
     data_final DATE,
