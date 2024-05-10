@@ -54,7 +54,7 @@ public class AddressService {
                     .map(AddressDTO::new)
                     .collect(Collectors.toList());
 
-            resultList.add(new ClientAndAddressDTO(customer.getId(), customer.getNome(), customer.getSobrenome(), customer.getCpf(), customer.getTelefone(), customer.getFoto(),
+            resultList.add(new ClientAndAddressDTO(customer.getId(), customer.getFirstName(), customer.getLastName(), customer.getCpf(), customer.getPhone(), customer.getImage(),
                     addressDTO));
         });
 

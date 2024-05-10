@@ -24,14 +24,14 @@ public class Cliente {
     private Long id;
     @Column(unique = true)
     private String email;
-    private String nome;
-    private String sobrenome;
+    private String firstName;
+    private String lastName;
     @Column(unique = true)
     @Size(min = 11, max = 11)
     private String cpf;
     @Column(unique = true)
-    private String telefone;
-    private String foto;
+    private String phone;
+    private String image;
 
 
 
@@ -52,11 +52,11 @@ public class Cliente {
 
     public Cliente(ClientDTO data) {
         this.email = data.email();
-        this.nome = data.nome();
-        this.sobrenome = data.sobrenome();
+        this.firstName = data.nome();
+        this.lastName = data.sobrenome();
         this.cpf = data.cpf();
-        this.telefone = String.valueOf(data.telefone());
-        this.foto = data.foto();
+        this.phone = String.valueOf(data.telefone());
+        this.image = data.foto();
 
     }
 

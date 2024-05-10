@@ -31,17 +31,17 @@ public class ClientService {
                 throw new DataIntegrityViolationException("Já existe um cliente com este CPF.");
             }
 
-            if (clientRepository.existsByTelefone(String.valueOf(data.telefone()))) {
+            if (clientRepository.existsByPhone(String.valueOf(data.telefone()))) {
                 throw new DataIntegrityViolationException("Já existe um cliente com este telefone.");
             }
 
             Cliente newCliente = new Cliente();
             newCliente.setEmail(data.email());
-            newCliente.setNome(data.nome());
-            newCliente.setSobrenome(data.sobrenome());
+            newCliente.setFirstName(data.nome());
+            newCliente.setLastName(data.sobrenome());
             newCliente.setCpf(data.cpf());
-            newCliente.setTelefone(data.telefone());
-            newCliente.setFoto(data.foto());
+            newCliente.setPhone(data.telefone());
+            newCliente.setImage(data.foto());
 
             clientRepository.save(newCliente);
 
@@ -57,10 +57,10 @@ public class ClientService {
             Optional<Cliente> optionalCliente = clientRepository.findById(id);
             if (optionalCliente.isPresent()) {
                 Cliente cliente = optionalCliente.get();
-                cliente.setNome(data.nome());
-                cliente.setSobrenome(data.sobrenome());
-                cliente.setTelefone(data.telefone());
-                cliente.setFoto(data.foto());
+                cliente.setFirstName(data.nome());
+                cliente.setLastName(data.sobrenome());
+                cliente.setPhone(data.telefone());
+                cliente.setImage(data.foto());
                 return ResponseEntity.ok().build();
             } else {
                 return ResponseEntity.notFound().build();
