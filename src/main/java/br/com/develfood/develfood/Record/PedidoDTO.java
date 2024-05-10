@@ -8,22 +8,22 @@ import java.math.BigDecimal;
 public record PedidoDTO(
 
         Long id,
-        BigDecimal total,
-        int quantidade,
+        BigDecimal fullPrice,
+        int quantity,
         String status,
         Plates plates,
         String data,
-        String formaPagamento
+        String paymentType
 ) {
     public PedidoDTO(Pedido pedido) {
         this(
                 pedido.getId(),
-                pedido.getTotal(),
-                pedido.getQuantidade(),
+                pedido.getFullPrice(),
+                pedido.getQuantity(),
                 "PEDIDO_REALIZADO",
                 pedido.getPlates(),
-                pedido.getData().toString(),
-                pedido.getFormaPagamento()
+                pedido.getDate().toString(),
+                pedido.getPaymentType()
         );
     }
 }

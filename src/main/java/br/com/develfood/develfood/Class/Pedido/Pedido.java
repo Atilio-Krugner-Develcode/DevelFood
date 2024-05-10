@@ -35,18 +35,18 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-    private BigDecimal total;
-    private int quantidade;
+    private BigDecimal fullPrice;
+    private int quantity;
     private String status;
-    private LocalDate data;
-    private String formaPagamento;
+    private LocalDate date;
+    private String paymentType;
 
     public Pedido(PedidoDTO body) {
-        this.total = body.total();
-        this.quantidade = body.quantidade();
+        this.fullPrice = body.fullPrice();
+        this.quantity = body.quantity();
         this.status = body.status();
-        this.data = LocalDate.now();
-        this.formaPagamento = body.formaPagamento();
+        this.date = LocalDate.now();
+        this.paymentType = body.paymentType();
     }
 
 

@@ -56,15 +56,15 @@ public class PedidoService {
         pedido.setCliente(cliente);
         pedido.setRestaurantes(restaurante);
         pedido.setPlates(prato);
-        pedido.setQuantidade(pedidoDTO.getQuantidade());
+        pedido.setQuantity(pedidoDTO.getQuantity());
         pedido.setStatus("PEDIDO_REALIZADO");
-        pedido.setData(LocalDate.now());
-        pedido.setFormaPagamento(pedidoDTO.getFormaPagamento());
+        pedido.setDate(LocalDate.now());
+        pedido.setPaymentType(pedidoDTO.getPaymentType());
 
         BigDecimal precoUnitario = pedido.getPlates().getPreco();
-        int quantidade = pedido.getQuantidade();
+        int quantidade = pedido.getQuantity();
         BigDecimal total = precoUnitario.multiply(BigDecimal.valueOf(quantidade));
-        pedido.setTotal(total);
+        pedido.setFullPrice(total);
 
         pedidoRepository.save(pedido);
 
@@ -78,11 +78,11 @@ public class PedidoService {
             PedidoDetalhado pedidoDetalhado = new PedidoDetalhado();
             pedidoDetalhado.setId(pedido.getId());
             pedidoDetalhado.setStatus("PEDIDO_REALIZADO");
-            pedidoDetalhado.setTotal(pedido.getTotal());
-            pedidoDetalhado.setQuantidade(pedido.getQuantidade());
+            pedidoDetalhado.setFullPrice(pedido.getFullPrice());
+            pedidoDetalhado.setQuantity(pedido.getQuantity());
             pedidoDetalhado.setStatus(pedido.getStatus());
-            pedidoDetalhado.setData(pedido.getData());
-            pedidoDetalhado.setFormaPagamento(pedido.getFormaPagamento());
+            pedidoDetalhado.setDate(pedido.getDate());
+            pedidoDetalhado.setPaymentType(pedido.getPaymentType());
 
             Plates pratoDTO = new Plates();
             pratoDTO.setId(pedido.getPlates().getId());
@@ -104,9 +104,9 @@ public class PedidoService {
             pedidoDetalhado.setRestaurante(restauranteDTO);
 
             BigDecimal precoUnitario = pedido.getPlates().getPreco();
-            int quantidade = pedido.getQuantidade();
+            int quantidade = pedido.getQuantity();
             BigDecimal total = precoUnitario.multiply(BigDecimal.valueOf(quantidade));
-            pedidoDetalhado.setTotal(total);
+            pedidoDetalhado.setFullPrice(total);
 
             pedidosDetalhados.add(pedidoDetalhado);
         }
@@ -119,8 +119,8 @@ public class PedidoService {
             Optional<Pedido> optionalPedido = pedidoRepository.findById(Long.valueOf(String.valueOf(id)));
             if (optionalPedido.isPresent()) {
                 Pedido pedido = optionalPedido.get();
-                pedido.setQuantidade(data.quantidade());
-                pedido.setFormaPagamento(data.formaPagamento());
+                pedido.setQuantity((data.quantity()));
+                pedido.setPaymentType(data.paymentType());
                 return ResponseEntity.ok().build();
             } else {
                 return ResponseEntity.notFound().build();
