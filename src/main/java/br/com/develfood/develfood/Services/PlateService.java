@@ -51,13 +51,13 @@ public class PlateService {
         Page<Plates> allPlate;
 
         if (categoria != null && !categoria.isEmpty()) {
-            allPlate = plateRepository.findByCategoriaOrderByRestauranteName(categoria, pageable);
+            allPlate = plateRepository.findByCategoryOrderByRestauranteName(categoria, pageable);
         } else {
             allPlate = plateRepository.findAll(pageable);
         }
 
-        Page<PlatesDTO> platesDTOPage = allPlate.map(plate -> new PlatesDTO(plate.getId(), plate.getNome(), plate.getDescricao(), plate.getFoto(),
-                plate.getPreco(), plate.getCategoria()));
+        Page<PlatesDTO> platesDTOPage = allPlate.map(plate -> new PlatesDTO(plate.getId(), plate.getName(), plate.getDescription(), plate.getImage(),
+                plate.getPrice(), plate.getCategory()));
 
         return ResponseEntity.ok(platesDTOPage);
     }
@@ -82,11 +82,11 @@ public class PlateService {
             Optional<Plates> optionalPlates = plateRepository.findById(String.valueOf(id));
             if (optionalPlates.isPresent()) {
                 Plates plates = optionalPlates.get();
-                plates.setNome(data.nome());
-                plates.setDescricao(data.descricao());
-                plates.setFoto(data.foto());
-                plates.setPreco(data.preco());
-                plates.setCategoria(data.categoria());
+                plates.setName(data.nome());
+                plates.setDescription(data.descricao());
+                plates.setImage(data.foto());
+                plates.setPrice(data.preco());
+                plates.setCategory(data.categoria());
 
                 return ResponseEntity.ok().build();
             } else {

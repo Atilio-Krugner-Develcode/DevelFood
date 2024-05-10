@@ -7,9 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PlateRepository extends JpaRepository<Plates, String> {
 
-        Page<Plates> findByCategoriaOrderByRestauranteName(String categoria, Pageable pageable);
-
-
+        Page<Plates> findByCategoryOrderByRestauranteName(String category, Pageable pageable);
 
 }
     

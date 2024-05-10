@@ -23,11 +23,11 @@ public class Plates {
     @Id
 
     private Long id;
-    private String nome;
-    private String descricao;
-    private String foto;
-    private BigDecimal preco;
-    private String categoria;
+    private String name;
+    private String description;
+    private String image;
+    private BigDecimal price;
+    private String category;
 
 
     @ManyToOne
@@ -46,11 +46,11 @@ public class Plates {
 
 
     public Plates(PlateDTO body) {
-        this.nome = body.nome();
-        this.descricao = body.descricao();
-        this.foto = body.foto();
-        this.preco = body.preco();
-        this.categoria = body.categoria();
+        this.name = body.nome();
+        this.description = body.descricao();
+        this.image = body.foto();
+        this.price = body.preco();
+        this.category = body.categoria();
         this.plateFilter = body.plateFilter();
     }
 

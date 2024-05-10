@@ -16,7 +16,7 @@ public record PlateDTO(
 
 ) {
     public PlateDTO(Plates plates) {
-        this(plates.getId(), plates.getNome(), plates.getDescricao(), plates.getFoto(), plates.getCategoria(), plates.getPreco(), plates.getRestaurante().getPlateFilter());
+        this(plates.getId(), plates.getName(), plates.getDescription(), plates.getImage(), plates.getCategory(), plates.getPrice(), plates.getRestaurante().getPlateFilter());
     }
 
 

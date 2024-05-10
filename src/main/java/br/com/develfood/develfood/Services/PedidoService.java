@@ -61,7 +61,7 @@ public class PedidoService {
         pedido.setDate(LocalDate.now());
         pedido.setPaymentType(pedidoDTO.getPaymentType());
 
-        BigDecimal precoUnitario = pedido.getPlates().getPreco();
+        BigDecimal precoUnitario = pedido.getPlates().getPrice();
         int quantidade = pedido.getQuantity();
         BigDecimal total = precoUnitario.multiply(BigDecimal.valueOf(quantidade));
         pedido.setFullPrice(total);
@@ -86,11 +86,11 @@ public class PedidoService {
 
             Plates pratoDTO = new Plates();
             pratoDTO.setId(pedido.getPlates().getId());
-            pratoDTO.setNome(pedido.getPlates().getNome());
-            pratoDTO.setDescricao(pedido.getPlates().getDescricao());
-            pratoDTO.setFoto(pedido.getPlates().getFoto());
-            pratoDTO.setPreco(pedido.getPlates().getPreco());
-            pratoDTO.setCategoria(pedido.getPlates().getCategoria());
+            pratoDTO.setName(pedido.getPlates().getName());
+            pratoDTO.setDescription(pedido.getPlates().getDescription());
+            pratoDTO.setImage(pedido.getPlates().getImage());
+            pratoDTO.setPrice(pedido.getPlates().getPrice());
+            pratoDTO.setCategory(pedido.getPlates().getCategory());
             pratoDTO.setPlateFilter(pedido.getRestaurantes().getPlateFilter());
             pedidoDetalhado.setPrato(pratoDTO);
 
@@ -103,7 +103,7 @@ public class PedidoService {
             restauranteDTO.setPlateFilter(pedido.getRestaurantes().getPlateFilter());
             pedidoDetalhado.setRestaurante(restauranteDTO);
 
-            BigDecimal precoUnitario = pedido.getPlates().getPreco();
+            BigDecimal precoUnitario = pedido.getPlates().getPrice();
             int quantidade = pedido.getQuantity();
             BigDecimal total = precoUnitario.multiply(BigDecimal.valueOf(quantidade));
             pedidoDetalhado.setFullPrice(total);
