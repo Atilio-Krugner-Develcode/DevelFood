@@ -5,11 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
 public interface PlateRepository extends JpaRepository<Plates, String> {
 
-        Page<Plates> findByCategoriaOrderByRestauranteNome(String categoria, Pageable pageable);
+        Page<Plates> findByCategoriaOrderByRestauranteName(String categoria, Pageable pageable);
 
 
 

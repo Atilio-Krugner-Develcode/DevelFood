@@ -51,10 +51,10 @@ public class RestaurantService {
             Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(id);
             if (optionalRestaurant.isPresent()) {
                 Restaurant restaurant = optionalRestaurant.get();
-                restaurant.setNome(data.nome());
+                restaurant.setName(data.nome());
                 restaurant.setCnpj(data.cnpj());
-                restaurant.setTelefone(data.telefone());
-                restaurant.setFoto(data.foto());
+                restaurant.setPhone(String.valueOf(data.telefone()));
+                restaurant.setImage(data.foto());
                 return ResponseEntity.ok().build();
             } else {
                 return ResponseEntity.notFound().build();

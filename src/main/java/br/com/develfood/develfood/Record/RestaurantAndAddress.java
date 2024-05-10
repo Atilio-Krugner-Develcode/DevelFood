@@ -7,7 +7,7 @@ public record RestaurantAndAddress(
         Long id,
         String nome,
         String cnpj,
-        int telefone,
+        String telefone,
         String foto,
 
         List<AddressDTO> Endereco

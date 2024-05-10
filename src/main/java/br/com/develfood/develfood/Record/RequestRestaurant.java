@@ -7,13 +7,13 @@ public record RequestRestaurant(
         String id,
         String nome,
         String cnpj,
-        int telefone,
+        String telefone,
         String foto,
         PlateFilter plateFilter
 
 ) {
     public RequestRestaurant(Restaurant restaurant){
-        this(String.valueOf(restaurant.getId()),restaurant.getNome(),restaurant.getCnpj(),restaurant.getTelefone(), restaurant.getFoto(),restaurant.getPlateFilter());
+        this(String.valueOf(restaurant.getId()),restaurant.getName(),restaurant.getCnpj(),restaurant.getPhone(), restaurant.getImage(),restaurant.getPlateFilter());
     }
 
 }

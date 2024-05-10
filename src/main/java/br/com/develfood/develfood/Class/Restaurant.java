@@ -22,10 +22,10 @@ public class Restaurant {
     @Id
 
     private Long id;
-    private String nome;
+    private String name;
     private String cnpj;
-    private int telefone;
-    private String foto;
+    private String phone;
+    private String image;
 
     @ManyToOne
     @JoinColumn(name = "tipos")
@@ -60,7 +60,7 @@ public class Restaurant {
 
     public void updateRestaurant(RequestRestaurant restaurant) {
         if (restaurant.nome() != null) {
-            this.nome = restaurant.nome();
+            this.name = restaurant.nome();
         }
         if (restaurant.cnpj() != null) {
             this.cnpj = restaurant.cnpj();
@@ -69,10 +69,10 @@ public class Restaurant {
     }
 
     public Restaurant(RequestRestaurant requestRestaurant){
-        this.nome = requestRestaurant.nome();
+        this.name = requestRestaurant.nome();
         this.cnpj = requestRestaurant.cnpj();
-        this.telefone = requestRestaurant.telefone();
-        this.foto = requestRestaurant.foto();
+        this.phone = String.valueOf(requestRestaurant.telefone());
+        this.image = requestRestaurant.foto();
         this.plateFilter = requestRestaurant.plateFilter();
     }
 }

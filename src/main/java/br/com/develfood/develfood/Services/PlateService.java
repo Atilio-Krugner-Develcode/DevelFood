@@ -35,7 +35,7 @@ public class PlateService {
             List<PlateDTO> pratosDTO = pratos.stream()
                     .map(PlateDTO::new)
                     .collect(Collectors.toList());
-            return new RestauranteComPratosDTO(restaurante.getId(), restaurante.getNome(), restaurante.getCnpj(), restaurante.getTelefone(), restaurante.getFoto(),
+            return new RestauranteComPratosDTO(restaurante.getId(), restaurante.getName(), restaurante.getCnpj(), restaurante.getPhone(), restaurante.getImage(),
                     restaurante.getPlateFilter(), pratosDTO);
         });
 
@@ -51,7 +51,7 @@ public class PlateService {
         Page<Plates> allPlate;
 
         if (categoria != null && !categoria.isEmpty()) {
-            allPlate = plateRepository.findByCategoriaOrderByRestauranteNome(categoria, pageable);
+            allPlate = plateRepository.findByCategoriaOrderByRestauranteName(categoria, pageable);
         } else {
             allPlate = plateRepository.findAll(pageable);
         }

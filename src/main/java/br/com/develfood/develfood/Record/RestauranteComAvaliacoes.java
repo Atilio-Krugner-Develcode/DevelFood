@@ -10,7 +10,7 @@ public record RestauranteComAvaliacoes(
         Long id,
         String nome,
         String cnpj,
-        int telefone,
+        String telefone,
         String foto,
         PlateFilter plateFilter,
         List<Avaliacao> avaliacoes,

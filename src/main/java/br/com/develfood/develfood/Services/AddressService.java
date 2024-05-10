@@ -44,7 +44,7 @@ public class AddressService {
                     .map(AddressDTO::new)
                     .collect(Collectors.toList());
 
-            resultList.add(new RestaurantAndAddress(restaurant.getId(), restaurant.getNome(), restaurant.getCnpj(), restaurant.getTelefone(), restaurant.getFoto(),
+            resultList.add(new RestaurantAndAddress(restaurant.getId(), restaurant.getName(), restaurant.getCnpj(), restaurant.getPhone(), restaurant.getImage(),
                     addressDTO));
         });
 

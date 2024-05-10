@@ -96,10 +96,10 @@ public class PedidoService {
 
             Restaurant restauranteDTO = new Restaurant();
             restauranteDTO.setId(pedido.getRestaurantes().getId());
-            restauranteDTO.setNome(pedido.getRestaurantes().getNome());
+            restauranteDTO.setName(pedido.getRestaurantes().getName());
             restauranteDTO.setCnpj(pedido.getRestaurantes().getCnpj());
-            restauranteDTO.setTelefone(pedido.getRestaurantes().getTelefone());
-            restauranteDTO.setFoto(pedido.getRestaurantes().getFoto());
+            restauranteDTO.setPhone(pedido.getRestaurantes().getPhone());
+            restauranteDTO.setImage(pedido.getRestaurantes().getImage());
             restauranteDTO.setPlateFilter(pedido.getRestaurantes().getPlateFilter());
             pedidoDetalhado.setRestaurante(restauranteDTO);
 
