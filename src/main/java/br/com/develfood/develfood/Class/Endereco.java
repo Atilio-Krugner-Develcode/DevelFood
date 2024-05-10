@@ -15,10 +15,10 @@ public class Endereco {
     @Id
 
     private Long id;
-    private String rua;
-    private int numero;
-    private String cidade;
-    private String bairro;
+    private String street;
+    private String number;
+    private String city;
+    private String neigbourhood;
     private String cep;
     private String state;
 
@@ -31,10 +31,10 @@ public class Endereco {
     private Cliente cliente;
 
     public Endereco(AddressDTO body) {
-        this.rua = body.rua();
-        this.numero = body.numero();
-        this.cidade = body.cidade();
-        this.bairro = body.bairro();
+        this.street = body.rua();
+        this.number = String.valueOf(body.numero());
+        this.city = body.cidade();
+        this.neigbourhood = body.bairro();
         this.cep = body.cep();
         this.state = body.state();
     }

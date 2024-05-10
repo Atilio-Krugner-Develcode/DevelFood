@@ -99,10 +99,10 @@ public class AddressService {
             Optional<Endereco> optionalEndereco = addressRepository.findById(Long.valueOf(id));
             if (optionalEndereco.isPresent()) {
                 Endereco endereco = optionalEndereco.get();
-                endereco.setRua(data.rua());
-                endereco.setNumero(data.numero());
-                endereco.setBairro(data.bairro());
-                endereco.setCidade(data.cidade());
+                endereco.setStreet(data.rua());
+                endereco.setNumber(data.numero());
+                endereco.setNeigbourhood(data.bairro());
+                endereco.setCity(data.cidade());
                 endereco.setCep(data.cep());
                 endereco.setState(data.state());
 
