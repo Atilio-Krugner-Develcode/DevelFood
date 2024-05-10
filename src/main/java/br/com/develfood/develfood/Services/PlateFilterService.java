@@ -35,7 +35,7 @@ public class PlateFilterService {
             Optional<PlateFilter> optionalPlateFilter = plateFilterRepository.findById(id);
             if (optionalPlateFilter.isPresent()) {
                 PlateFilter plateFilter = optionalPlateFilter.get();
-                plateFilter.setNome(data.nome());
+                plateFilter.setName(data.name());
                 return ResponseEntity.ok().build();
             } else {
                 return ResponseEntity.notFound().build();
