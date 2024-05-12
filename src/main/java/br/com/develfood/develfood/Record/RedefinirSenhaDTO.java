@@ -7,8 +7,8 @@ public class RedefinirSenhaDTO {
     @NotBlank(message = "A nova senha não pode estar em branco")
     private String novaSenha;
 
-
     public RedefinirSenhaDTO() {
+
     }
 
     public RedefinirSenhaDTO(String novaSenha) {

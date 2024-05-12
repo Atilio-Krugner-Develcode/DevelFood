@@ -17,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Random;
 import java.util.UUID;
 
 @RestController
@@ -67,39 +68,47 @@ public class AutentificacaoController {
 
 
     @PostMapping("/redefinir-senha")
-    public ResponseEntity redefinirSenha(@RequestParam("token") String token, @RequestBody @Valid RedefinirSenhaDTO data) {
-        if (passwordRecoveryService.isValidRecoveryToken(token)) {
-            User user = passwordRecoveryService.findUserByRecoveryToken(token);
+    public ResponseEntity redefinirSenha(@RequestBody @Valid RedefinirSenhaRequest request) {
+        String codigoVerificacao = request.getCodigoVerificacao();
+        String novaSenha = request.getNovaSenha();
 
-            if (user != null) {
-                String encryptedPassword = new BCryptPasswordEncoder().encode(data.getNovaSenha());
-                user.setPassword(encryptedPassword);
-                repository.save(user);
+        User user = passwordRecoveryService.findUserByVerificationCode(codigoVerificacao);
 
-                passwordRecoveryService.removeToken(token);
-
-                return ResponseEntity.ok("Senha redefinida com sucesso.");
-            }
+        if (user == null) {
+            return ResponseEntity.badRequest().body("Código de verificação inválido.");
         }
 
-        return ResponseEntity.badRequest().body("Token de recuperação inválido ou expirado.");
-    }
+        String encryptedPassword = new BCryptPasswordEncoder().encode(novaSenha);
 
+        user.setPassword(encryptedPassword);
+        user.setVerificationCode(null);
+        repository.save(user);
+
+        return ResponseEntity.ok("Senha redefinida com sucesso.");
+    }
 
 
     @PostMapping("/esqueci-senha")
     public ResponseEntity esqueciSenha(@RequestBody @Valid EsqueciSenhaDTO data) {
-        User user = (User) repository.findByLogin(data.getEmail());
+        User user = repository.findByLogin(data.getEmail());
 
         if (user == null) {
             return ResponseEntity.badRequest().body("Usuário não encontrado.");
         }
 
-        String recoveryToken = UUID.randomUUID().toString();
-        passwordRecoveryService.associateTokenWithUser(recoveryToken, user);
+        String verificationCode = generateVerificationCode();
 
-        emailService.sendPasswordRecoveryEmail(user.getEmail(), recoveryToken);
+        user.setVerificationCode(verificationCode);
+        repository.save(user);
+
+        emailService.sendPasswordRecoveryEmail(user.getEmail(), verificationCode);
 
         return ResponseEntity.ok("Email de recuperação de senha enviado com sucesso.");
+    }
+
+    private String generateVerificationCode() {
+        Random random = new Random();
+        int code = 1000 + random.nextInt(9000);
+        return String.valueOf(code);
     }
 }

@@ -10,8 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+@Entity
 @Table(name = "users")
-@Entity(name = "users")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -45,23 +45,24 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false)
     private UserRole role;
 
+    @Column(name = "verification_code")
+    private String verificationCode; // Novo campo para armazenar o código de verificação
 
-        public User(String login, String password, String userEmail, UserRole role){
-            this.login = login;
-            this.password = password;
-            this.userEmail = userEmail;
-            this.role = role;
-        }
-
-
+    public User(String login, String password, String userEmail, UserRole role) {
+        this.login = login;
+        this.password = password;
+        this.userEmail = userEmail;
+        this.role = role;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"),new SimpleGrantedAuthority("ROLE_USER"));
-
-        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        if (this.role == UserRole.ADMIN) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        } else {
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        }
     }
-
 
     @Override
     public String getUsername() {
@@ -92,5 +93,11 @@ public class User implements UserDetails {
         return this.userEmail;
     }
 
+    public String getVerificationCode() {
+        return verificationCode;
+    }
 
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
 }

@@ -14,8 +14,6 @@ public class PasswordRecoveryService {
 
     private static final long TOKEN_EXPIRATION_TIME_MS = 15 * 60 * 1000;
 
-
-
     public User findUserByRecoveryToken(String token) {
         return userRepository.findByRecoveryToken(token);
     }
@@ -32,7 +30,6 @@ public class PasswordRecoveryService {
 
         long tokenTimestamp = Long.parseLong(user.getRecoveryTokenTimestamp());
         long currentTime = System.currentTimeMillis();
-
         return (currentTime - tokenTimestamp) <= TOKEN_EXPIRATION_TIME_MS;
     }
 
@@ -64,4 +61,30 @@ public class PasswordRecoveryService {
             }
         }
     }
+
+    public void generateAndStoreVerificationCode(User user) {
+        String verificationCode = generateVerificationCode();
+        user.setVerificationCode(verificationCode);
+        userRepository.save(user);
+    }
+
+    public boolean verifyVerificationCode(User user, String verificationCode) {
+        if (user == null || user.getVerificationCode() == null) {
+            return false;
+        }
+        return user.getVerificationCode().equals(verificationCode);
+    }
+
+    private String generateVerificationCode() {
+        int code = 1000 + (int) (Math.random() * 9000);
+        return String.valueOf(code);
+    }
+    public User findUserByVerificationCode(String verificationCode) {
+        if (verificationCode == null || verificationCode.isEmpty()) {
+            return null;
+        }
+
+        return userRepository.findByVerificationCode(verificationCode);
+    }
 }
+
