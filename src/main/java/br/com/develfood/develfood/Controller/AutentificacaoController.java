@@ -5,6 +5,7 @@ import br.com.develfood.develfood.Class.User;
 import br.com.develfood.develfood.Record.*;
 import br.com.develfood.develfood.Repository.UserRepository;
 import br.com.develfood.develfood.Services.PasswordRecoveryService;
+import br.com.develfood.develfood.Services.UserService;
 import br.com.develfood.develfood.infra.security.TokenService;
 import br.com.develfood.develfood.Services.EmailService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Random;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("auth")
@@ -31,6 +31,9 @@ public class AutentificacaoController {
     private TokenService tokenService;
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private PasswordRecoveryService passwordRecoveryService;
@@ -47,15 +50,8 @@ public class AutentificacaoController {
     }
 
     @PostMapping("/registrar")
-    public ResponseEntity registrar(@RequestBody @Validated RegisterDTO data) {
-        if (this.repository.findByUserEmail(data.userEmail()) != null) {
-            return ResponseEntity.badRequest().build();
-        }
-        String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.userEmail(), encryptedPassword, data.userEmail(), data.role());
-        this.repository.save(newUser);
-        emailService.sendRegistrationEmail(newUser.getUserEmail());
-        return ResponseEntity.ok().build();
+    public User registrar(@RequestBody @Validated RegisterDTO data) {
+        return userService.registerUser(data);
     }
 
     @PostMapping("/logout")
@@ -83,7 +79,6 @@ public class AutentificacaoController {
         user.setPassword(encryptedPassword);
         user.setVerificationCode(null);
         repository.save(user);
-
         return ResponseEntity.ok("Senha redefinida com sucesso.");
     }
 
@@ -91,20 +86,34 @@ public class AutentificacaoController {
     @PostMapping("/esqueci-senha")
     public ResponseEntity esqueciSenha(@RequestBody @Valid EsqueciSenhaDTO data) {
         User user = repository.findByLogin(data.getEmail());
+        if (user == null) {
+            return ResponseEntity.badRequest().body("Usuário não encontrado.");
+        }
+        String verificationCode = generateVerificationCode();
+
+        user.setVerificationCode(verificationCode);
+        repository.save(user);
+        emailService.sendPasswordRecoveryEmail(user.getEmail(), verificationCode);
+
+        return ResponseEntity.ok("Email de recuperação de senha enviado com sucesso.");
+    }
+
+    @PostMapping("/verificar-codigo")
+    public ResponseEntity<String> verificarCodigoRecuperacao(@RequestBody @Valid VerificarCodigoDTO verificationData) {
+        User user = repository.findByLogin(verificationData.getEmail());
 
         if (user == null) {
             return ResponseEntity.badRequest().body("Usuário não encontrado.");
         }
 
-        String verificationCode = generateVerificationCode();
+        if (user.getVerificationCode() == null || !user.getVerificationCode().equals(verificationData.getCodigo())) {
+            return ResponseEntity.badRequest().body("Código inválido.");
+        }
 
-        user.setVerificationCode(verificationCode);
-        repository.save(user);
-
-        emailService.sendPasswordRecoveryEmail(user.getEmail(), verificationCode);
-
-        return ResponseEntity.ok("Email de recuperação de senha enviado com sucesso.");
+        return ResponseEntity.ok("Código verificado com sucesso. Agora você pode redefinir sua senha.");
     }
+
+
 
     private String generateVerificationCode() {
         Random random = new Random();

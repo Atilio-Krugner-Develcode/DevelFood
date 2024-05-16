@@ -16,6 +16,9 @@ public class PromocaoService {
     private RestaurantRepository restaurantRepository;
     private final RestaurantePromocaoRepository restaurantePromocaoRepository;
 
+    @Autowired
+    private RestaurantePromocaoRepository promocaoRepository;
+
     public PromocaoService(RestaurantePromocaoRepository restaurantePromocaoRepository) {
         this.restaurantePromocaoRepository = restaurantePromocaoRepository;
     }
@@ -23,6 +26,10 @@ public class PromocaoService {
     @Autowired
     public void RestaurantService(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
+    }
+
+    public List<RestaurantePromocao> getAllPromotions() {
+        return promocaoRepository.findAll();
     }
 
 

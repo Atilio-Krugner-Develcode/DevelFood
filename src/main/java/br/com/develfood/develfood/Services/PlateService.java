@@ -3,19 +3,16 @@ package br.com.develfood.develfood.Services;
 import br.com.develfood.develfood.Class.Plates;
 import br.com.develfood.develfood.Class.Restaurant;
 import br.com.develfood.develfood.Record.PlateDTO;
-import br.com.develfood.develfood.Record.PlatesDTO;
 import br.com.develfood.develfood.Record.RestauranteComPratosDTO;
 import br.com.develfood.develfood.Repository.PlateRepository;
 import br.com.develfood.develfood.Repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -27,40 +24,19 @@ public class PlateService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-    public ResponseEntity<Page<RestauranteComPratosDTO>> listarTodosPratos(Pageable pageable) {
-        Page<Restaurant> restaurantesPage = restaurantRepository.findAll(pageable);
+    public RestauranteComPratosDTO getRestauranteComPratosById(Long restauranteId) {
+        Restaurant restaurante = restaurantRepository.findById(restauranteId)
+                .orElseThrow(() -> new NoSuchElementException("Restaurante não encontrado com o ID: " + restauranteId));
 
-        Page<RestauranteComPratosDTO> restaurantesComPratosPage = restaurantesPage.map(restaurante -> {
-            List<Plates> pratos = restaurante.getPratos();
-            List<PlateDTO> pratosDTO = pratos.stream()
-                    .map(PlateDTO::new)
-                    .collect(Collectors.toList());
-            return new RestauranteComPratosDTO(restaurante.getId(), restaurante.getName(), restaurante.getCnpj(), restaurante.getPhone(), restaurante.getImage(),
-                    restaurante.getPlateFilter(), pratosDTO);
-        });
+        List<PlateDTO> pratosDTO = restaurante.getPratos().stream()
+                .map(PlateDTO::new)
+                .collect(Collectors.toList());
 
-        if (restaurantesComPratosPage.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-
-        return ResponseEntity.ok(restaurantesComPratosPage);
+        return new RestauranteComPratosDTO(restaurante.getId(), restaurante.getName(), restaurante.getCnpj(),
+                restaurante.getPhone(), restaurante.getImage(), restaurante.getPlateFilter(), pratosDTO);
     }
 
-    public ResponseEntity<Page<PlatesDTO>> getAllPlates(int page, int size, String categoria) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Plates> allPlate;
 
-        if (categoria != null && !categoria.isEmpty()) {
-            allPlate = plateRepository.findByCategoryOrderByRestauranteName(categoria, pageable);
-        } else {
-            allPlate = plateRepository.findAll(pageable);
-        }
-
-        Page<PlatesDTO> platesDTOPage = allPlate.map(plate -> new PlatesDTO(plate.getId(), plate.getName(), plate.getDescription(), plate.getImage(),
-                plate.getPrice(), plate.getCategory()));
-
-        return ResponseEntity.ok(platesDTOPage);
-    }
 
     public ResponseEntity<?> createPlate(PlateDTO body, Long restaurantId) {
         Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
@@ -69,7 +45,6 @@ public class PlateService {
             Plates newPlate = new Plates(body);
             newPlate.setRestaurante(restaurant);
             plateRepository.save(newPlate);
-
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
@@ -79,14 +54,14 @@ public class PlateService {
     @Transactional
     public ResponseEntity updatePlate(Long id, PlateDTO data) {
         if (id != null) {
-            Optional<Plates> optionalPlates = plateRepository.findById(String.valueOf(id));
+            Optional<Plates> optionalPlates = plateRepository.findById(Long.valueOf(String.valueOf(id)));
             if (optionalPlates.isPresent()) {
                 Plates plates = optionalPlates.get();
-                plates.setName(data.nome());
-                plates.setDescription(data.descricao());
-                plates.setImage(data.foto());
-                plates.setPrice(data.preco());
-                plates.setCategory(data.categoria());
+                plates.setName(data.name());
+                plates.setDescription(data.description());
+                plates.setImage(data.image());
+                plates.setPrice(data.price());
+                plates.setCategory(data.category());
 
                 return ResponseEntity.ok().build();
             } else {
@@ -98,7 +73,7 @@ public class PlateService {
     }
 
     public void deletePlate(Long id) {
-        plateRepository.deleteById(String.valueOf(id));
+        plateRepository.deleteById(Long.valueOf(String.valueOf(id)));
     }
 
 }

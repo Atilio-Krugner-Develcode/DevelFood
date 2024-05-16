@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/promotions")
 public class PromocaoController {
@@ -35,6 +37,21 @@ public class PromocaoController {
             return new ResponseEntity<>(createdPromotion, HttpStatus.CREATED);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<RestaurantePromocao>> getAllPromotions() {
+        try {
+            List<RestaurantePromocao> promotions = promocaoService.getAllPromotions();
+
+            if (!promotions.isEmpty()) {
+                return new ResponseEntity<>(promotions, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

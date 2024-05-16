@@ -3,18 +3,25 @@ package br.com.develfood.develfood.Services;
 import br.com.develfood.develfood.Class.Cliente;
 import br.com.develfood.develfood.Class.Endereco;
 import br.com.develfood.develfood.Class.Restaurant;
+import br.com.develfood.develfood.Class.User;
 import br.com.develfood.develfood.Record.AddressDTO;
 import br.com.develfood.develfood.Record.ClientAndAddressDTO;
 import br.com.develfood.develfood.Record.RestaurantAndAddress;
 import br.com.develfood.develfood.Repository.AddressRepository;
 import br.com.develfood.develfood.Repository.ClientRepository;
 import br.com.develfood.develfood.Repository.RestaurantRepository;
+import br.com.develfood.develfood.Repository.UserRepository;
+import br.com.develfood.develfood.infra.security.TokenService;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +38,13 @@ public class AddressService {
 
     @Autowired
     private ClientRepository clientRepository;
+
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private UserRepository userRepository;
+
 
     public List<Object> getEntitiesAndAddresses(Pageable pageable) {
         Page<Restaurant> restaurantPage = restaurantRepository.findAll(pageable);
@@ -59,6 +73,10 @@ public class AddressService {
         });
 
         return resultList;
+    }
+
+    public Optional<Endereco> clienteEndereco(Long id) {
+        return addressRepository.findById(id);
     }
 
     public ResponseEntity<?> createAddress(AddressDTO body, Long restaurantId, Long customerId) {
@@ -125,4 +143,38 @@ public class AddressService {
 
         }
     }
+
+    private String extrairToken (HttpServletRequest request){
+        String authorization = request.getHeader("Authorization");
+        if(authorization == null || !authorization.startsWith("Bearer ")) {
+            throw new JWTVerificationException("Token invalido");
+        }
+        return authorization.substring(7);
+    }
+
+    private User encontrarUser(Long userId){
+        Optional<User>userOptional = userRepository.findById(String.valueOf(userId));
+        if (userOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
+        }
+        return userOptional.get();
+    }
+
+    private Cliente encontrarCliente(Long userId){
+        Optional<Cliente>clienteOptional = clientRepository.findByUserId(userId);
+        if (clienteOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado");
+        }
+        return clienteOptional.get();
+    }
+
+    private Long validarToken(String token) {
+        Long userId = tokenService.extrairIdUser(token);
+        if(userId == null){
+            throw new JWTVerificationException("Token invalido");
+        }
+        return userId;
+    }
+
 }
+

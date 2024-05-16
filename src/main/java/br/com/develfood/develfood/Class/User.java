@@ -46,13 +46,15 @@ public class User implements UserDetails {
     private UserRole role;
 
     @Column(name = "verification_code")
-    private String verificationCode; // Novo campo para armazenar o código de verificação
+    private String verificationCode;
 
-    public User(String login, String password, String userEmail, UserRole role) {
+
+
+    public User(String login, String password, String userEmail, String role) {
         this.login = login;
         this.password = password;
         this.userEmail = userEmail;
-        this.role = role;
+        this.role = UserRole.valueOf(role);
     }
 
     @Override
@@ -99,5 +101,9 @@ public class User implements UserDetails {
 
     public void setVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
+    }
+
+    public boolean isPresent() {
+        return false;
     }
 }

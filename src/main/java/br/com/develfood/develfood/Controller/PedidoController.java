@@ -2,19 +2,17 @@ package br.com.develfood.develfood.Controller;
 
 import br.com.develfood.develfood.Class.Estatus;
 import br.com.develfood.develfood.Class.NovoStatusRequest;
-import br.com.develfood.develfood.Class.Pedido.CriarPedidoDTO;
-import br.com.develfood.develfood.Class.Pedido.Pedido;
-import br.com.develfood.develfood.Class.Pedido.PedidoDetalhado;
-import br.com.develfood.develfood.Record.PedidoDTO;
-import br.com.develfood.develfood.Record.PlateDTO;
+import br.com.develfood.develfood.Class.Pedido.*;
 import br.com.develfood.develfood.Services.PedidoService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -22,32 +20,48 @@ public class PedidoController {
 
 
     @Autowired
-    private final PedidoService pedidoService;
+    private PedidoService pedidoService;
+
 
     public PedidoController(PedidoService pedidoService) {
         this.pedidoService = pedidoService;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<String> criarPedido(@RequestBody CriarPedidoDTO pedidoDTO) {
-        pedidoService.criarPedido(pedidoDTO);
-        return ResponseEntity.status(HttpStatus.OK).body("Pedido criado com sucesso!");
+    @PostMapping("/criar")
+    public ResponseEntity<String> criarPedido(@Valid @RequestBody CriarPedidoDTO pedidoDTO, HttpServletRequest request) {
+        try {
+            Long pedidoId = pedidoService.criarPedido(pedidoDTO, request);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body("Pedido criado com sucesso. ID do pedido: " + pedidoId);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao processar o pedido: " + e.getMessage());
+        }
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<PedidoResponseDTO> buscarPedido(@PathVariable Long id) {
+        try {
+            PedidoResponseDTO pedido = pedidoService.buscarPedido(id);
+            return new ResponseEntity<>(pedido, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    @GetMapping("/list")
-    public ResponseEntity<List<PedidoDetalhado>> obterTodosPedidos() {
-        List<PedidoDetalhado> pedidosDetalhados = pedidoService.obterTodosPedidosDetalhados();
-        return ResponseEntity.ok(pedidosDetalhados);
-    }
-    @PutMapping("/{id}")
-    public ResponseEntity updatePedido(@PathVariable Long id, @RequestBody @Validated PedidoDTO data) {
-        return pedidoService.updatePedido(id, data);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePedido(@PathVariable Long id) {
-        pedidoService.deletePedido(id);
-        return ResponseEntity.noContent().build();
+    @GetMapping("/pratos")
+    public ResponseEntity<List<PedidoListDTO>> listarPratosDoCliente(HttpServletRequest request) {
+        try {
+           var pedidoResponseDTO = pedidoService.pedidoResponseDTO(request);
+           return  ResponseEntity.ok().body(pedidoResponseDTO);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 
@@ -58,3 +72,5 @@ public class PedidoController {
         return ResponseEntity.ok().build();
     }
 }
+
+

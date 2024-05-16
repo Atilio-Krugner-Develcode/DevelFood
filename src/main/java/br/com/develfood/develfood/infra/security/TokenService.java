@@ -7,6 +7,9 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
 import br.com.develfood.develfood.Class.User;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -48,5 +51,11 @@ public class TokenService {
 
     private Instant genExpirationDate(){
         return LocalDateTime.now().plusHours(120).toInstant(ZoneOffset.of("-03:00"));
+    }
+
+    public Long extrairIdUser(String token){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        return user.getId();
     }
 }

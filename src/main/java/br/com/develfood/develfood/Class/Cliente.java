@@ -1,5 +1,6 @@
 package br.com.develfood.develfood.Class;
 
+import br.com.develfood.develfood.Class.Pedido.ItemPedido;
 import br.com.develfood.develfood.Class.Pedido.Pedido;
 import br.com.develfood.develfood.Record.ClientDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -48,6 +49,9 @@ public class Cliente {
     @JsonIgnore
     private List<PratosFavoritos> pratosFavoritos;
 
+    @OneToOne
+    @JsonIgnore
+    private User user;
 
 
     public Cliente(ClientDTO data) {

@@ -7,11 +7,11 @@ import java.math.BigDecimal;
 
 public record PlateDTO(
         Long id,
-        String nome,
-        String descricao,
-        String foto,
-        String categoria,
-        BigDecimal preco,
+        String name,
+        String description,
+        String image,
+        String category,
+        BigDecimal price,
         PlateFilter plateFilter
 
 ) {

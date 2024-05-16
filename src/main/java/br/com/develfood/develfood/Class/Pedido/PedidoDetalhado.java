@@ -16,13 +16,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class PedidoDetalhado {
     private Long id;
-    private BigDecimal fullPrice;
-    private int quantity;
+    private BigDecimal total;
+    private int quantidade;
     private String status;
-    private LocalDate date;
-    private String paymentType;
+    private LocalDate data;
+    private String formaPagamento;
     private Plates prato;
     private Restaurant restaurante;
-
 
 }

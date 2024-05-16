@@ -1,8 +1,12 @@
 package br.com.develfood.develfood.Class.Pedido;
 
+import br.com.develfood.develfood.Class.Plates;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -10,13 +14,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 
 public class CriarPedidoDTO {
-
-
-    private Long idCliente;
-    private Long idPrato;
+    @NotNull
     private Long idRestaurantes;
-    private LocalDate date;
-    private String paymentType;
-    private int quantity;
+    @NotBlank
+    private String formaPagamento;
+    @NotNull
+    private List<PedidoDTO> pedidos;
 
 }

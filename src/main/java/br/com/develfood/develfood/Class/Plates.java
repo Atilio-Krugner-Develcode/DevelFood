@@ -38,23 +38,17 @@ public class Plates {
     @JoinColumn(name = "plate_filter_id")
     private PlateFilter plateFilter;
 
-    @OneToMany(mappedBy = "plates" )
-    @JsonIgnore
-    private List<Pedido> pedido;
-
 
 
 
     public Plates(PlateDTO body) {
-        this.name = body.nome();
-        this.description = body.descricao();
-        this.image = body.foto();
-        this.price = body.preco();
-        this.category = body.categoria();
+        this.name = body.name();
+        this.description = body.description();
+        this.image = body.image();
+        this.price = body.price();
+        this.category = body.category();
         this.plateFilter = body.plateFilter();
     }
 
-    public void size() {
 
-    }
 }

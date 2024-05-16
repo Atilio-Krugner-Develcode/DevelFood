@@ -1,9 +1,12 @@
 package br.com.develfood.develfood.Record;
 
+import br.com.develfood.develfood.Class.Endereco;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 public record ClientDTO(
         Long id,
@@ -25,6 +28,16 @@ public record ClientDTO(
         @Positive(message = "O telefone deve ser um número positivo")
         String telefone,
 
+        String user,
+        String password,
+        String role,
+        String rua,
+        String numero,
+        String cidade,
+        String bairro,
+        String cep,
+        String state,
         String foto
+
 ) {
 }

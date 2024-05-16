@@ -28,6 +28,11 @@ public class AddressController {
         return ResponseEntity.ok(addressService.getEntitiesAndAddresses(pageable));
     }
 
+    @GetMapping("/client")
+    public ResponseEntity<Object> clienteEndereco(@PageableDefault(size = 10) Pageable pageable) {
+        return ResponseEntity.ok(addressService.getEntitiesAndAddresses(pageable));
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> postAddress(@RequestBody @Validated AddressDTO body, @RequestParam(required = false) Long restaurantId, @RequestParam(required = false) Long customerId) {
         return addressService.createAddress(body, restaurantId, customerId);
