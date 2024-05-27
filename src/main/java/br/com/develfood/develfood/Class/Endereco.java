@@ -16,7 +16,6 @@ import lombok.*;
 public class Endereco {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-
     private Long id;
     private String street;
     private String number;
