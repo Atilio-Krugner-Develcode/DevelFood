@@ -1,11 +1,13 @@
 CREATE TABLE restaurant(
  id SERIAL PRIMARY KEY,
- nome VARCHAR(100) NOT NULL,
- cpf CHAR(11),
- telefone NUMERIC,
+ name VARCHAR(100) NOT NULL,
+ cnpj CHAR(11),
+ phone VARCHAR(20),
  restauranteId INTEGER,
- foto VARCHAR(255),
+ image VARCHAR(255),
  tipos INTEGER,
+ pedidosId INTEGER,
+ localizacao INTEGER,
  FOREIGN KEY (restauranteId) REFERENCES users(id)
 
  );

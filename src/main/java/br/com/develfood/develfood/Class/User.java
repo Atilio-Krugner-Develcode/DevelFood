@@ -7,12 +7,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Entity
 @Table(name = "users")
-@Entity(name = "users")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,28 +19,52 @@ import java.util.List;
 @EqualsAndHashCode(of = "id")
 public class User implements UserDetails {
 
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Id
-        private String id;
-        private String login;
-        private String password;
-        private UserRole role;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-        public User(String login, String password, UserRole role){
-            this.login = login;
-            this.password = password;
-            this.role = role;
-        }
+    @Column(name = "login", unique = true, nullable = false)
+    private String login;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Column(name = "recovery_token_timestamp")
+    private String recoveryTokenTimestamp;
+
+    @Column(name = "recovery_token")
+    private String recoveryToken;
+
+    @Column(name = "usuarioId")
+    private Integer usuarioId;
+
+    @Column(name = "user_email")
+    private String userEmail;
+
+    @Column(name = "role", nullable = false)
+    private UserRole role;
+
+    @Column(name = "verification_code")
+    private String verificationCode;
 
 
+
+    public User(String login, String password, String userEmail, String role) {
+        this.login = login;
+        this.password = password;
+        this.userEmail = userEmail;
+        this.role = UserRole.valueOf(role);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"),new SimpleGrantedAuthority("ROLE_USER"));
-
-        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        if (this.role == UserRole.ADMIN) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        } else {
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        }
     }
-
 
     @Override
     public String getUsername() {
@@ -66,5 +89,21 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getEmail() {
+        return this.userEmail;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public boolean isPresent() {
+        return false;
     }
 }

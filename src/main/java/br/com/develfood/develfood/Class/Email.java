@@ -21,4 +21,6 @@ public class Email {
     private  String texto;
     private LocalDateTime tempo;
     private StatusEmail status;
+
+
 }

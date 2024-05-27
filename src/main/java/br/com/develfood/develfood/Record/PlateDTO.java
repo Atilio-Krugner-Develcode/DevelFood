@@ -7,16 +7,16 @@ import java.math.BigDecimal;
 
 public record PlateDTO(
         Long id,
-        String nome,
-        String descricao,
-        String foto,
-        String categoria,
-        BigDecimal preco,
+        String name,
+        String description,
+        String image,
+        String category,
+        BigDecimal price,
         PlateFilter plateFilter
 
 ) {
     public PlateDTO(Plates plates) {
-        this(plates.getId(), plates.getNome(), plates.getDescricao(), plates.getFoto(), plates.getCategoria(), plates.getPreco(), plates.getRestaurante().getPlateFilter());
+        this(plates.getId(), plates.getName(), plates.getDescription(), plates.getImage(), plates.getCategory(), plates.getPrice(), plates.getRestaurante().getPlateFilter());
     }
 
 

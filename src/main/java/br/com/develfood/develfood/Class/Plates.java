@@ -1,11 +1,14 @@
 package br.com.develfood.develfood.Class;
 
+import br.com.develfood.develfood.Class.Pedido.Pedido;
 import br.com.develfood.develfood.Record.PlateDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Getter
@@ -13,17 +16,18 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "pratos")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @EqualsAndHashCode(of = "id")
 public class Plates {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
 
     private Long id;
-    private String nome;
-    private String descricao;
-    private String foto;
-    private BigDecimal preco;
-    private String categoria;
+    private String name;
+    private String description;
+    private String image;
+    private BigDecimal price;
+    private String category;
 
 
     @ManyToOne
@@ -36,12 +40,15 @@ public class Plates {
 
 
 
+
     public Plates(PlateDTO body) {
-        this.nome = body.nome();
-        this.descricao = body.descricao();
-        this.foto = body.foto();
-        this.preco = body.preco();
-        this.categoria = body.categoria();
+        this.name = body.name();
+        this.description = body.description();
+        this.image = body.image();
+        this.price = body.price();
+        this.category = body.category();
         this.plateFilter = body.plateFilter();
     }
+
+
 }

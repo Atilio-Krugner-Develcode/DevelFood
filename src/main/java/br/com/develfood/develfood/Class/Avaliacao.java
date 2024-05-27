@@ -1,5 +1,6 @@
 package br.com.develfood.develfood.Class;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,8 +21,6 @@ public class Avaliacao {
     private BigDecimal nota;
 
     @ManyToOne
-    private Cliente cliente;
-
-    @ManyToOne
+    @JsonIgnore
     private Restaurant restaurante;
 }

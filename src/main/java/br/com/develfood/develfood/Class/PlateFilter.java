@@ -1,7 +1,6 @@
 package br.com.develfood.develfood.Class;
 
 import br.com.develfood.develfood.Record.PlateFilterDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,12 +17,12 @@ public class PlateFilter {
     @Id
 
     private Long id;
-    private String nome;
+    private String name;
 
 
 
     public PlateFilter(PlateFilterDTO data) {
-        this.nome = data.nome();
+        this.name = data.name();
     }
 
 
